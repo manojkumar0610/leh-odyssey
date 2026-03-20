@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Leh Odyssey — Bangalore to Leh 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:wght@700;900&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0e0d0b;
+  --surface:#161410;
+  --surface2:#1e1b16;
+  --border:#2e2920;
+  --text:#e8e0d0;
+  --muted:#7a7060;
+  --amber:#e8a030;
+  --rust:#c84820;
+  --pine:#3a6640;
+  --sky:#3a5f8a;
+  --gold:#d4a040;
+  --friends:#7040a0;
+  --cream:#f0e8d8;
+  --warn-bg:rgba(200,72,32,.12);
+  --good-bg:rgba(58,102,64,.12);
+  --info-bg:rgba(58,95,138,.12);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Barlow',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* ── GRAIN OVERLAY ─────────────────────────────────── */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:1000;
+  opacity:.6;
+}
+
+/* ── HERO ──────────────────────────────────────────── */
+.hero{
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:40px 24px;
+  position:relative;
+  overflow:hidden;
+  background:
+    repeating-linear-gradient(90deg, transparent, transparent 18px, rgba(255,255,255,.025) 18px, rgba(255,255,255,.025) 20px),
+    linear-gradient(to top, var(--bg) 0%, rgba(14,13,11,.7) 50%, transparent 100%),
+    linear-gradient(135deg, #1e1508 0%, #0a0c10 40%, #160a06 70%, #0e0d0b 100%);
+}
+
+.hero-mountains{
+  position:absolute;
+  inset:0;
+  opacity:.15;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% 100%, #3a5f8a22 0%, transparent 70%),
+    radial-gradient(ellipse 80% 40% at 20% 80%, #e8a03018 0%, transparent 60%),
+    radial-gradient(ellipse 60% 30% at 80% 70%, #c8482018 0%, transparent 50%);
+}
+
+/* SVG mountain silhouette */
+.mountain-svg{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:65%;
+  opacity:.32;
+}
+
+.hero-eyebrow{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:11px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  color:var(--dust, #c4a882);
+  margin-bottom:18px;
+  opacity:0;
+  animation:fadeUp .6s .2s forwards;
+}
+
+.hero-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(72px,16vw,140px);
+  font-weight:400;
+  line-height:.88;
+  letter-spacing:3px;
+  color:var(--cream);
+  opacity:0;
+  animation:fadeUp .7s .35s forwards;
+  text-shadow: 0 2px 40px rgba(0,0,0,.5);
+}
+
+.hero-title span.leh-word{
+  color:#d4541a;
+  display:inline;
+}
+
+.hero-divider{
+  width:60px;
+  height:2px;
+  background:var(--amber);
+  margin:20px 0;
+  opacity:0;
+  animation:fadeUp .6s .5s forwards;
+}
+
+.hero-sub{
+  font-size:14px;
+  line-height:1.7;
+  color:var(--muted);
+  max-width:480px;
+  opacity:0;
+  animation:fadeUp .6s .6s forwards;
+}
+
+.hero-stats{
+  display:flex;
+  gap:0;
+  margin-top:32px;
+  opacity:0;
+  animation:fadeUp .6s .75s forwards;
+  border:1px solid var(--border);
+  overflow:hidden;
+}
+
+.stat{
+  flex:1;
+  padding:14px 12px;
+  border-right:1px solid var(--border);
+  position:relative;
+}
+.stat:last-child{border-right:none;}
+
+.stat-n{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:22px;
+  font-weight:700;
+  color:var(--amber);
+  line-height:1;
+}
+
+.stat-l{
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-top:3px;
+}
+
+.scroll-hint{
+  position:absolute;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  opacity:0;
+  animation:fadeIn 1s 1.2s forwards;
+}
+
+.scroll-hint span{
+  font-size:9px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.scroll-arrow{
+  width:20px;
+  height:20px;
+  border-right:1px solid var(--amber);
+  border-bottom:1px solid var(--amber);
+  transform:rotate(45deg);
+  animation:bounce 1.5s infinite;
+}
+
+/* ── NAV ───────────────────────────────────────────── */
+.nav{
+  position:sticky;
+  top:0;
+  z-index:200;
+  background:rgba(14,13,11,.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.nav::-webkit-scrollbar{display:none;}
+
+.nav-inner{
+  display:flex;
+  min-width:max-content;
+  padding:0 8px;
+}
+
+.nav-btn{
+  padding:14px 16px;
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
+  white-space:nowrap;
+  position:relative;
+  transition:color .2s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+}
+
+.nav-btn::after{
+  content:'';
+  position:absolute;
+  bottom:0;
+  left:16px;
+  right:16px;
+  height:2px;
+  background:var(--amber);
+  transform:scaleX(0);
+  transition:transform .2s;
+}
+
+.nav-btn.active{color:var(--amber);}
+.nav-btn.active::after{transform:scaleX(1);}
+.nav-btn:hover:not(.active){color:var(--text);}
+
+.nav-icon{font-size:14px;}
+
+/* ── PANELS ────────────────────────────────────────── */
+.panel{display:none;animation:fadeIn .3s forwards;}
+.panel.active{display:block;}
+
+/* ── PHASE HEADER ──────────────────────────────────── */
+.phase-hdr{
+  padding:24px;
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  position:relative;
+  overflow:hidden;
+}
+
+.phase-hdr::before{
+  content:'';
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:3px;
+}
+
+.phase-hdr.p1::before{background:var(--rust);}
+.phase-hdr.p2::before{background:var(--amber);}
+.phase-hdr.p3a::before{background:var(--sky);}
+.phase-hdr.p3b::before{background:var(--friends);}
+.phase-hdr.ptips::before{background:var(--pine);}
+
+.phase-tag{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:10px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--amber);
+  margin-bottom:6px;
+}
+
+.phase-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(22px,5vw,32px);
+  font-weight:700;
+  color:var(--cream);
+  line-height:1.1;
+}
+
+.phase-meta{
+  display:flex;
+  gap:16px;
+  margin-top:10px;
+  flex-wrap:wrap;
+}
+
+.phase-meta-item{
+  font-size:12px;
+  color:var(--muted);
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+
+.phase-meta-item strong{color:var(--amber);}
+
+/* ── DAY CARDS ─────────────────────────────────────── */
+.days{padding:16px;}
+.days>*+*{margin-top:10px;}
+
+.day{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-left:3px solid var(--muted);
+  overflow:hidden;
+  transition:border-color .2s;
+}
+
+.day.rest{border-left-color:var(--pine);}
+.day.arr{border-left-color:var(--amber);}
+.day.mtn{border-left-color:var(--sky);}
+.day.split-you{border-left-color:var(--rust);}
+.day.split-fri{border-left-color:var(--friends);}
+.day.amr{border-left-color:#e03030;}
+.day.srn{border-left-color:var(--pine);}
+
+.day-head{
+  padding:14px 16px;
+  display:grid;
+  grid-template-columns:56px 1fr auto;
+  gap:12px;
+  align-items:center;
+  cursor:pointer;
+  user-select:none;
+}
+
+.day-num-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+}
+
+.day-num{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:28px;
+  font-weight:700;
+  line-height:1;
+  color:var(--muted);
+}
+
+.day.rest .day-num{color:var(--pine);}
+.day.arr .day-num{color:var(--amber);}
+.day.mtn .day-num{color:var(--sky);}
+.day.split-you .day-num{color:var(--rust);}
+.day.split-fri .day-num{color:var(--friends);}
+.day.amr .day-num{color:#e03030;}
+.day.srn .day-num{color:var(--pine);}
+
+.day-date{
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-top:1px;
+}
+
+.day-head-content{}
+
+.day-route{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:17px;
+  font-weight:600;
+  color:var(--cream);
+  line-height:1.2;
+}
+
+.day-km{
+  font-size:11px;
+  color:var(--amber);
+  margin-top:2px;
+  font-weight:500;
+}
+
+.day-chevron{
+  color:var(--muted);
+  transition:transform .25s;
+  font-size:14px;
+  flex-shrink:0;
+}
+
+.day.open .day-chevron{transform:rotate(180deg);}
+
+.day-body{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .35s ease;
+}
+
+.day.open .day-body{max-height:1200px;}
+
+.day-body-inner{
+  padding:0 16px 16px;
+  border-top:1px solid var(--border);
+}
+
+.day-desc{
+  font-size:13px;
+  line-height:1.75;
+  color:#c8c0b0;
+  padding-top:12px;
+}
+
+.day-desc b{color:var(--amber);font-weight:600;}
+
+.day-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:12px;
+}
+
+.tag{
+  font-size:10px;
+  padding:4px 8px;
+  border:1px solid var(--border);
+  color:var(--muted);
+  font-family:'Barlow Condensed',sans-serif;
+  letter-spacing:.5px;
+}
+
+.tag.warn{border-color:rgba(200,72,32,.4);color:#e07050;background:var(--warn-bg);}
+.tag.good{border-color:rgba(58,102,64,.4);color:#70b878;background:var(--good-bg);}
+.tag.info{border-color:rgba(58,95,138,.4);color:#6090c0;background:var(--info-bg);}
+
+/* ── SPLIT SECTION ─────────────────────────────────── */
+.split-cols{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:var(--border);
+  margin:16px;
+}
+
+@media(max-width:520px){
+  .split-cols{grid-template-columns:1fr;}
+}
+
+.split-col{
+  padding:16px;
+  background:var(--surface);
+}
+
+.split-col.you{border-top:2px solid var(--rust);}
+.split-col.fri{border-top:2px solid var(--friends);}
+
+.split-col h3{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.split-col.you h3{color:var(--rust);}
+.split-col.fri h3{color:var(--friends);}
+.split-col p{font-size:12px;line-height:1.7;color:var(--muted);}
+.split-col p strong{color:var(--text);}
+
+/* ── CIRCUIT TABLE ─────────────────────────────────── */
+.ctable-wrap{
+  margin:16px;
+  overflow-x:auto;
+  border:1px solid var(--border);
+}
+
+.ctable{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+  min-width:600px;
+}
+
+.ctable th{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--amber);
+  padding:10px 12px;
+  text-align:left;
+  border-bottom:1px solid var(--amber);
+  background:var(--surface2);
+  white-space:nowrap;
+}
+
+.ctable td{
+  padding:10px 12px;
+  border-bottom:1px solid var(--border);
+  vertical-align:top;
+  line-height:1.5;
+  color:#b8b0a0;
+}
+
+.ctable td:first-child{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:600;
+  color:var(--amber);
+  white-space:nowrap;
+}
+
+.ctable .tr-tog td{border-left:2px solid var(--pine);}
+.ctable .tr-you td{border-left:2px solid var(--rust);background:rgba(200,72,32,.04);}
+.ctable .tr-fri td{border-left:2px solid var(--friends);background:rgba(112,64,160,.04);}
+
+/* ── INFO BOXES ────────────────────────────────────── */
+.info-box{
+  margin:16px;
+  padding:16px;
+  border:1px solid var(--border);
+  border-left:3px solid;
+  background:var(--surface);
+  font-size:13px;
+  line-height:1.7;
+  color:#b8b0a0;
+}
+
+.info-box.warn{border-left-color:var(--rust);background:var(--warn-bg);}
+.info-box.good{border-left-color:var(--pine);background:var(--good-bg);}
+.info-box.fri{border-left-color:var(--friends);background:rgba(112,64,160,.08);color:#c8b0e0;}
+.info-box strong{color:var(--cream);}
+
+/* ── SECTION TITLE ─────────────────────────────────── */
+.sec-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--amber);
+  padding:20px 16px 8px;
+}
+
+/* ── FUEL MAP ──────────────────────────────────────── */
+.fuel-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:1px;
+  background:var(--border);
+  margin:0 16px 16px;
+}
+
+.fuel-stop{
+  padding:12px 14px;
+  background:var(--surface);
+}
+
+.fuel-stop.off{border-top:2px solid var(--pine);}
+.fuel-stop.blk{border-top:2px solid var(--amber);}
+
+.fuel-name{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:13px;
+  font-weight:600;
+  color:var(--cream);
+  margin-bottom:3px;
+}
+
+.fuel-type{font-size:11px;color:var(--muted);line-height:1.4;}
+
+/* ── TIPS ──────────────────────────────────────────── */
+.tips-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:1px;
+  background:var(--border);
+  margin:0 16px 16px;
+}
+
+.tip{
+  padding:18px;
+  background:var(--surface);
+}
+
+.tip-icon{font-size:20px;margin-bottom:8px;}
+
+.tip-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:12px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--amber);
+  margin-bottom:6px;
+}
+
+.tip-body{font-size:12px;color:var(--muted);line-height:1.7;}
+.tip-body strong{color:var(--text);}
+
+/* ── SUMMARY TABLE ─────────────────────────────────── */
+.sum-wrap{
+  margin:0 16px 16px;
+  overflow-x:auto;
+  border:1px solid var(--border);
+}
+
+.sum-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+  min-width:500px;
+}
+
+.sum-table th{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--amber);
+  padding:10px 12px;
+  text-align:left;
+  border-bottom:1px solid var(--amber);
+  background:var(--surface2);
+}
+
+.sum-table td{
+  padding:10px 12px;
+  border-bottom:1px solid var(--border);
+  vertical-align:top;
+  line-height:1.5;
+  color:#b8b0a0;
+}
+
+.sum-table tr:nth-child(even) td{background:var(--surface2);}
+
+/* ── CHECKLIST ─────────────────────────────────────── */
+.checklist{margin:0 16px 16px;}
+.checklist>*+*{margin-top:1px;}
+
+.check-item{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:12px 14px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  cursor:pointer;
+  transition:background .15s;
+}
+
+.check-item:hover{background:var(--surface2);}
+
+.check-item input[type=checkbox]{
+  width:16px;
+  height:16px;
+  margin-top:1px;
+  accent-color:var(--amber);
+  flex-shrink:0;
+  cursor:pointer;
+}
+
+.check-label{font-size:13px;color:#b8b0a0;line-height:1.5;}
+.check-label strong{color:var(--cream);font-weight:600;}
+.check-label .check-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.check-item.checked .check-label{text-decoration:line-through;color:var(--muted);}
+
+/* ── GEAR GRID ─────────────────────────────────────── */
+.gear-section{margin:0 16px 20px;}
+.gear-section-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:10px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--rust);
+  padding:14px 0 8px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:8px;
+}
+
+.gear-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:1px;
+  background:var(--border);
+}
+
+.gear-item{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:10px 12px;
+  background:var(--surface);
+  cursor:pointer;
+}
+
+.gear-item input[type=checkbox]{
+  width:14px;
+  height:14px;
+  margin-top:2px;
+  accent-color:var(--amber);
+  flex-shrink:0;
+}
+
+.gear-text{font-size:12px;color:#b8b0a0;line-height:1.4;}
+.gear-text strong{color:var(--cream);font-size:12px;}
+.gear-text .qty{color:var(--amber);font-size:11px;}
+.gear-item.checked .gear-text{text-decoration:line-through;color:var(--muted);}
+
+/* ── FRIENDS SECTION ───────────────────────────────── */
+.friends-journey{margin:16px;}
+.fj-day{
+  display:grid;
+  grid-template-columns:80px 1fr;
+  gap:12px;
+  padding:14px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-left:3px solid var(--friends);
+  margin-bottom:8px;
+}
+
+.fj-date{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:13px;
+  font-weight:700;
+  color:var(--friends);
+  line-height:1.2;
+}
+
+.fj-date span{
+  display:block;
+  font-size:9px;
+  letter-spacing:1px;
+  color:var(--muted);
+  margin-top:2px;
+  font-weight:400;
+}
+
+.fj-content{}
+.fj-route{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:15px;
+  font-weight:600;
+  color:var(--cream);
+  margin-bottom:4px;
+}
+.fj-note{font-size:12px;color:var(--muted);line-height:1.6;}
+.fj-note strong{color:var(--text);}
+
+/* ── KEY DATES ─────────────────────────────────────── */
+.kd-grid{
+  display:grid;
+  gap:1px;
+  background:var(--border);
+  margin:0 16px 16px;
+}
+
+.kd-row{
+  display:grid;
+  grid-template-columns:90px 1fr 1fr;
+  gap:1px;
+  background:var(--border);
+}
+
+.kd-cell{
+  padding:10px 12px;
+  background:var(--surface);
+  font-size:12px;
+  color:#b8b0a0;
+  line-height:1.4;
+}
+
+.kd-cell:first-child{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  color:var(--amber);
+  font-size:13px;
+}
+
+.kd-cell.you-cell{border-top:1px solid rgba(200,72,32,.3);}
+.kd-cell.fri-cell{border-top:1px solid rgba(112,64,160,.3);}
+
+.kd-hdr .kd-cell{
+  background:var(--surface2);
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+/* ── FOOTER ────────────────────────────────────────── */
+.site-footer{
+  padding:40px 24px;
+  text-align:center;
+  border-top:1px solid var(--border);
+  background:var(--surface);
+}
+
+.footer-title{
+  font-family:'Playfair Display',serif;
+  font-size:24px;
+  font-weight:700;
+  color:var(--amber);
+  margin-bottom:8px;
+}
+
+.footer-sub{font-size:12px;color:var(--muted);line-height:1.8;}
+
+/* ── ANIMATIONS ────────────────────────────────────── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes fadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+
+@keyframes bounce{
+  0%,100%{transform:rotate(45deg) translateY(0);}
+  50%{transform:rotate(45deg) translateY(5px);}
+}
+
+/* ── SCROLLBAR ─────────────────────────────────────── */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);}
+
+/* ── MOBILE TWEAKS ─────────────────────────────────── */
+@media(max-width:480px){
+  .hero{padding:32px 16px;}
+  .days{padding:12px;}
+  .split-cols{margin:12px;}
+  .info-box{margin:12px;}
+  .fuel-grid,.tips-grid,.sum-wrap,.gear-section,.kd-grid,.friends-journey{margin-left:12px;margin-right:12px;}
+  .checklist{margin:0 12px 12px;}
+  .ctable-wrap{margin:12px;}
+  .sec-title{padding:16px 12px 6px;}
+  .day-head{grid-template-columns:50px 1fr auto;gap:10px;}
+  .day-num{font-size:24px;}
+  .day-route{font-size:15px;}
+}
+
+/* ── BADGE ─────────────────────────────────────────── */
+.badge{
+  display:inline-block;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:9px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  padding:2px 7px;
+  border:1px solid currentColor;
+  margin-top:4px;
+  opacity:.7;
+}
+
+/* ── PROGRESS BAR ──────────────────────────────────── */
+.route-strip{
+  overflow-x:auto;
+  padding:16px 16px 12px;
+  background:var(--surface2);
+  border-bottom:1px solid var(--border);
+  scrollbar-width:none;
+}
+.route-strip::-webkit-scrollbar{display:none;}
+
+.route-dots{
+  display:flex;
+  align-items:center;
+  min-width:max-content;
+  gap:0;
+}
+
+.rdot{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+}
+
+.rdot-circle{
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--muted);
+  border:1px solid var(--muted);
+  flex-shrink:0;
+}
+
+.rdot-circle.hi{background:var(--rust);border-color:var(--rust);width:12px;height:12px;}
+.rdot-circle.leh{background:var(--amber);border-color:var(--amber);width:14px;height:14px;}
+.rdot-circle.amr{background:#e03030;border-color:#e03030;width:12px;height:12px;}
+.rdot-circle.srn{background:var(--pine);border-color:var(--pine);width:12px;height:12px;}
+
+.rdot-label{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:8px;
+  color:var(--muted);
+  letter-spacing:.5px;
+  white-space:nowrap;
+}
+
+.rline{
+  height:1px;
+  width:32px;
+  background:var(--border);
+  flex-shrink:0;
+}
+
+.rline.mtn{background:linear-gradient(90deg,var(--border),var(--sky));}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══════════════════════════════════════════ -->
+<section class="hero">
+  <svg class="mountain-svg" viewBox="0 0 1200 300" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 300 L150 180 L280 240 L420 100 L520 160 L640 40 L720 120 L820 60 L920 140 L1020 80 L1100 160 L1200 100 L1200 300 Z" fill="#3a5f8a" opacity=".4"/>
+    <path d="M0 300 L100 220 L200 260 L350 160 L450 200 L580 120 L680 180 L780 100 L880 170 L980 110 L1080 180 L1200 140 L1200 300 Z" fill="#1a2a3a" opacity=".6"/>
+    <path d="M0 300 L80 250 L180 270 L300 200 L400 230 L500 170 L600 210 L700 150 L800 200 L900 155 L1000 210 L1100 170 L1200 200 L1200 300 Z" fill="#0e1520" opacity=".8"/>
+  </svg>
+
+  <div style="position:relative;z-index:2;">
+    <div class="hero-eyebrow">🏍️ Motorcycle Expedition · May–June 2026 · KTM 390 ADV</div>
+    <h1 class="hero-title">BANGALORE<br/>TO <span class="leh-word">LEH</span><br/>ODYSSEY</h1>
+    <div class="hero-divider"></div>
+    <p class="hero-sub">5,726 km across the spine of India. Two riders. One machine. From the Deccan plateau to the roof of the world.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-n">5,726</div><div class="stat-l">Total KM</div></div>
+      <div class="stat"><div class="stat-n">19</div><div class="stat-l">Days</div></div>
+      <div class="stat"><div class="stat-n">19,024</div><div class="stat-l">Ft Umling La</div></div>
+      <div class="stat"><div class="stat-n">Jun 3</div><div class="stat-l">Back Home</div></div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Explore</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ═══ NAV ═════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="showPanel('p1',this)"><span class="nav-icon">🛣️</span>BLR → LEH</button>
+    <button class="nav-btn" onclick="showPanel('p2',this)"><span class="nav-icon">🏔️</span>CIRCUIT</button>
+    <button class="nav-btn" onclick="showPanel('p3a',this)"><span class="nav-icon">🏍️</span>YOUR EXIT</button>
+    <button class="nav-btn" onclick="showPanel('p3b',this)"><span class="nav-icon">✈️</span>FRIENDS</button>
+    <button class="nav-btn" onclick="showPanel('gear',this)"><span class="nav-icon">🎒</span>GEAR</button>
+    <button class="nav-btn" onclick="showPanel('tips',this)"><span class="nav-icon">⚙️</span>TIPS</button>
+    <button class="nav-btn" onclick="showPanel('summary',this)"><span class="nav-icon">📋</span>SUMMARY</button>
+  </div>
+</nav>
+
+<!-- ═══ PHASE 1 ══════════════════════════════════════════ -->
+<div id="p1" class="panel active">
+
+  <div class="phase-hdr p1">
+    <div class="phase-tag">Phase 1 of 3</div>
+    <div class="phase-title">Bangalore → Leh</div>
+    <div class="phase-meta">
+      <div class="phase-meta-item">📅 <strong>May 15 – May 23</strong></div>
+      <div class="phase-meta-item">📍 <strong>~3,924 km</strong></div>
+      <div class="phase-meta-item">🛣️ <strong>9 days incl. 1 rest</strong></div>
+    </div>
+  </div>
+
+  <div class="route-strip">
+    <div class="route-dots">
+      <div class="rdot"><div class="rdot-circle hi"></div><div class="rdot-label">BANGALORE</div></div>
+      <div class="rline"></div>
+      <div class="rdot"><div class="rdot-circle"></div><div class="rdot-label">PUNE</div></div>
+      <div class="rline"></div>
+      <div class="rdot"><div class="rdot-circle"></div><div class="rdot-label">DHAR</div></div>
+      <div class="rline"></div>
+      <div class="rdot"><div class="rdot-circle"></div><div class="rdot-label">AJMER</div></div>
+      <div class="rline"></div>
+      <div class="rdot"><div class="rdot-circle amr"></div><div class="rdot-label">AMRITSAR</div></div>
+      <div class="rline mtn"></div>
+      <div class="rdot"><div class="rdot-circle srn"></div><div class="rdot-label">SRINAGAR</div></div>
+      <div class="rline mtn"></div>
+      <div class="rdot"><div class="rdot-circle"></div><div class="rdot-label">KARGIL</div></div>
+      <div class="rline mtn"></div>
+      <div class="rdot"><div class="rdot-circle leh"></div><div class="rdot-label">LEH ★</div></div>
+    </div>
+  </div>
+
+  <div class="days">
+
+    <div class="day" onclick="toggleDay(this)">
+      <div class="day-head">
+        <div class="day-num-wrap"><div class="day-num">D1</div><div class="day-date">MAY 15</div></div>
+        <div class="day-head-content">
+          <div class="day-route">Bangalore → Pune</div>
+          <div class="day-km">864 km · 16 hrs · Leave 4:30 AM → Arrive 11 PM</div>
+        </div>
+        <div class="day-chevron">▼</div>
+      </div>
+      <div class="day-body"><div class="day-body-inner">
+        <div class="day-desc">The beast day. Leave at <b>4:30 AM</b> — Bangalore traffic is non-existent at that hour. NH-48 is fast and smooth all the way. Pure endurance — flat, high-speed highway grinding. Fuel every 250 km (KTM 390 ADV range at highway speed in Ladakh conditions). <b>Satara at ~380 km</b> is the perfect lunch stop. Arrive Gulmohar Paradise by 11 PM. Straight to bed.</div>
+        <div class="day-tags">
+          <span class="tag warn">⚠ Leave 4:30 AM Sharp</span>
+          <span class="tag warn">Longest Day — 864 km</span>
+          <span class="tag">Fuel Stop: Satara ~380 km</span>
+          <span class="tag">NH-48 All the Way</span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="day rest" onclick="toggleDay(this)">
+      <div class="day-head">
+        <div class="day-num-wrap"><div class="day-num">D2</div><div class="day-date">MAY 16</div></div>
+        <div class="day-head-content">
+          <div class="day-route">REST — Pune</div>
+          <div class="day-km">Zero riding · Full recovery day</div>
+        </div>
+        <div class="day-chevron">▼</div>
+      </div>
+      <div class="day-body"><div class="day-body-inner">
+        <div class="day-desc">Mandatory rest after 864 km. Sleep late. Eat well. Afternoon: inspect the bike thoroughly — chain tension, tyre pressure, brake pads, all fluid levels. Repack luggage — you'll know what you over-packed on Day 1. Pune has great food — Koregaon Park or FC Road for dinner.</div>
+        <div class="day-tags">
+          <span class="tag good">Full Recovery</span>
+          <span class="tag warn">Inspect Bike — Chain, Tyres, Brakes</span>
+          <span class="tag">Repack Luggage</span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="day" onclick="toggleDay(this)">
+      <div class="day-head">
+        <div class="day-num-wrap"><div class="day-num">D3</div><div class="day-date">MAY 17</div></div>
+        <div class="day-head-content">
+          <div class="day-route">Pune → Dhar (MP)</div>
+          <div class="day-km">603 km · 11 hrs · Leave 5 AM → Arrive 5 PM</div>
+        </div>
+        <div class="day-chevron">▼</div>
+      </div>
+      <div class="day-body"><div class="day-body-inner">
+        <div class="day-desc">Head northeast via Nashik toward Madhya Pradesh. The <b>Vindhya range</b> starts appearing — green, scenic, far less congested than the Gujarat coastal highway. NH-52 is solid. Dhar is a quiet overnight town. Indore is 35 km further if you want better food and hotel options.</div>
+        <div class="day-tags">
+          <span class="tag good">🌿 Scenic MP Route</span>
+          <span class="tag">Nashik ~200 km — Fuel + Meal</span>
+          <span class="tag">Indore Alternate (35 km extra)</span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="day" onclick="toggleDay(this)">
+      <div class="day-head">
+        <div class="day-num-wrap"><div class="day-num">D4</div><div class="day-date">MAY 18</div></div>
+        <div class="day-head-content">
+          <div class="day-route">Dhar → Ajmer</div>
+          <div class="day-km">515 km · 9 hrs · Leave 6 AM → Arrive 4 PM</div>
+        </div>
+        <div class="day-chevron">▼</div>
+      </div>
+      <div class="day-body"><div class="day-body-inner">
+        <div class="day-desc">Easy comfortable day. Cut diagonally northwest through Rajasthan — completely bypassing Jaipur city traffic. Arrive Ajmer by 4 PM. <b>Pushkar is just 15 km away</b> — sacred lake, ghats, Brahma Temple at sunset. Worth the evening detour. Buy camel leather goods in the lanes.</div>
+        <div class="day-tags">
+          <span class="tag good">✅ Jaipur Traffic Bypassed</span>
+          <span class="tag good">🌅 Pushkar Evening Detour (15 km)</span>
+          <span class="tag">Arrive 4 PM — Relaxed Evening</span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="day amr" onclick="toggleDay(this)">
+      <div class="day-head">
+        <div class="day-num-wrap"><div class="day-num">D5</div><div class="day-date">MAY 19</div></div>
+        <div class="day-head-content">
+          <div class="day-route">Ajmer → Amritsar</div>
+          <div class="day-km">684 km · 12 hrs · Leave 5 AM → Arrive 6 PM</div>
+        </div>
+        <div class="day-chevron">▼</div>
+      </div>
+      <div class="day-body"><div class="day-body-inner">
+        <div class="day-desc">Long but very manageable day on NH-44. Straight north through Haryana — completely avoids Delhi. Through Hisar, Sirsa, Ludhiana into Punjab. <b>Punjab roads are wide, excellent quality, and fast.</b> Arrive Amritsar by 6 PM. Freshen up. Head to <b>Golden Temple for the night darshan</b> — illuminated in gold, evening prayers. Stay near Golden Temple area.</div>
+        <div class="day-tags">
+          <span class="tag good">✅ Delhi Completely Avoided</span>
+          <span class="tag good">Punjab Roads — Fast and Excellent</span>
+          <span class="tag warn">Leave 5 AM — 12 hr Day</span>
+          <span class="tag good">🌙 Golden Temple Night Visit</span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="day amr" onclick="toggleDay(this)">
+      <div class="day-head">
+        <div class="day-num-wrap"><div class="day-num">D6</div><div class="day-date">MAY 20</div></div>
+        <div class="day-head-content">
+          <div class="day-route">Amritsar → Srinagar</div>
+          <div class="day-km">~448 km · Leave 9:30 AM → Arrive 6:30 PM</div>
+        </div>
+        <div class="day-chevron">▼</div>
+      </div>
+      <div class="day-body"><div class="day-body-inner">
+        <div class="day-desc"><b>4 AM:</b> Golden Temple at dawn — morning prayers (Asa di Var), golden reflection on the sarovar. Most peaceful time. <b>8 AM:</b> Ride to Wagha Border (30 km, 40 min) — photo at India-Pakistan border gate. Done by 9 AM. <b>9:30 AM: Leave Amritsar.</b> Amritsar → Jammu (~215 km, ~4 hrs expressway) → push past Jammu city → Ramban gorge → Banihal Tunnel (3.2 km — Kashmir valley opens up on the other side) → Srinagar by <b>6:30 PM.</b> Houseboat check-in on Dal Lake.</div>
+        <div class="day-tags">
+          <span class="tag good">🌅 4AM Golden Temple Dawn</span>
+          <span class="tag good">📸 Wagha Border Photo</span>
+          <span class="tag warn">⚠ Check Ramban Road Advisories</span>
+          <span class="tag good">🚇 Banihal Tunnel — Kashmir Entry</span>
+          <span class="tag good">🛶 Dal Lake Houseboat</span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="day srn" onclick="toggleDay(this)">
+      <div class="day-head">
+        <div class="day-num-wrap"><div class="day-num">D7</div><div class="day-date">MAY 21</div></div>
+        <div class="day-head-content">
+          <div class="day-route">Srinagar — Full Day</div>
+          <div class="day-km">Zero riding · Entire day free</div>
+        </div>
+        <div class="day-chevron">▼</div>
+      </div>
+      <div class="day-body"><div class="day-body-inner">
+        <div class="day-desc"><b>5 AM:</b> Floating vegetable market on Dal — locals on shikaras with lotus stems. Dawn only — gone by 9 AM. <b>6–7:30 AM:</b> Shikara ride as mist lifts over Pir Panjal range. <b>8–10 AM:</b> Nishat Bagh + Shalimar Bagh — Mughal gardens in morning light. <b>10–11:30 AM:</b> Old City — Jamia Masjid, Nowhatta bazaar, Pashmina lanes. <b>12–2 PM:</b> Wazwan lunch at Mughal Darbar — Rogan Josh, Yakhni, Gushtaba. Don't skip this. <b>2:30–4 PM:</b> Shankaracharya Temple hilltop — panoramic views. <b>4–5 PM:</b> Hazratbal Shrine on Dal's northern shore. <b>Evening:</b> Boulevard Road lakeside walk. <b>Buy saffron and Pashmina tonight</b> — no time tomorrow morning.</div>
+        <div class="day-tags">
+          <span class="tag good">🌅 5AM Floating Market — Dawn Only</span>
+          <span class="tag good">🛶 Shikara Ride</span>
+          <span class="tag good">🌿 Mughal Gardens</span>
+          <span class="tag good">🍽 Wazwan Lunch — Essential</span>
+          <span class="tag good">⛪ Shankaracharya Temple</span>
+          <span class="tag good">🧄 Buy Saffron + Pashmina Tonight</span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="day mtn" onclick="toggleDay(this)">
+      <div class="day-head">
+        <div class="day-num-wrap"><div class="day-num">D8</div><div class="day-date">MAY 22</div></div>
+        <div class="day-head-content">
+          <div class="day-route">Srinagar → Kargil</div>
+          <div class="day-km">201 km · 4.5 hrs · Leave 12 PM → Arrive 5:30 PM</div>
+        </div>
+        <div class="day-chevron">▼</div>
+      </div>
+      <div class="day-body"><div class="day-body-inner">
+        <div class="day-desc">Morning in Srinagar — last walks, pack up. <b>Leave 12 PM sharp.</b> Cross <b>Zoji La (3,528m)</b> — aim to be through before 3 PM when army convoy traffic peaks. Brief 15-min stop at <b>Drass War Memorial</b> — India's 1999 Kargil war front, deeply moving. Arrive Kargil by 5:30 PM. Fuel up — critical checkpoint. Walk the Kargil market. Good night's sleep before the Leh push tomorrow.</div>
+        <div class="day-tags">
+          <span class="tag warn">⚠ Leave 12 PM Sharp</span>
+          <span class="tag warn">Cross Zoji La Before 3 PM</span>
+          <span class="tag">🏛 Drass War Memorial — 15 Min</span>
+          <span class="tag info">⛽ Fuel at Kargil — Critical</span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="day arr" onclick="toggleDay(this)">
+      <div class="day-head">
+        <div class="day-num-wrap"><div class="day-num">D9</div><div class="day-date">MAY 23</div></div>
+        <div class="day-head-content">
+          <div class="day-route">Kargil → Leh</div>
+          <div class="day-km">209 km · 4 hrs · Leave 7 AM → Arrive 12:30 PM ✓</div>
+        </div>
+        <div class="day-chevron">▼</div>
+      </div>
+      <div class="day-body"><div class="day-body-inner">
+        <div class="day-desc">Leave Kargil at <b>7 AM.</b> First stop: <b>Mulbekh</b> (~45 km) — 9-metre Maitreya Buddha carved into rock face, 7th century. Right on the road, 15-min stop, don't skip. Continue through <b>Namika La</b> and <b>Fotu La (4,108m)</b> — highest point on this highway. Then <b>Lamayuru Monastery</b> — moonscape landscape, one of Ladakh's oldest monasteries (15-min stop). Final stretch along <b>Indus river valley</b> into Leh. Arrive <b>12:30 PM.</b><br/><br/><b>Afternoon:</b> Leh market → Leh Palace → Shanti Stupa at sunset (5:30–7 PM — stupa glows gold, get illuminated stupa after dark) → Indus viewpoint at dusk → dinner with friends.</div>
+        <div class="day-tags">
+          <span class="tag good">🪨 Mulbekh Buddha — Don't Skip</span>
+          <span class="tag">🏔 Fotu La 4,108m</span>
+          <span class="tag good">Lamayuru Moonscape</span>
+          <span class="tag good">🌊 Indus Valley Road</span>
+          <span class="tag good">🏁 Leh by 12:30 PM</span>
+          <span class="tag good">🕌 Shanti Stupa at Sunset</span>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+
+  <div class="info-box warn" style="margin:0 16px 16px;">
+    <strong>Friends' Bus Journey</strong><br/>
+    Friends fly Srinagar May 22. Same evening buy JKSRTC Super Deluxe tickets (₹1,320) at TRC Dal Gate in person. May 23: Bus departs 7–8 AM → Kargil 4–5 PM overnight. May 24: Kargil 6 AM → Leh 3–4 PM. <strong>They reach Leh May 23 night ~8 PM if taking private transport, or May 24 afternoon via JKSRTC.</strong>
+  </div>
+
+</div>
+
+<!-- ═══ PHASE 2 — CIRCUIT ════════════════════════════════ -->
+<div id="p2" class="panel">
+
+  <div class="phase-hdr p2">
+    <div class="phase-tag">Phase 2 of 3</div>
+    <div class="phase-title">Leh Circuit</div>
+    <div class="phase-meta">
+      <div class="phase-meta-item">📅 <strong>May 24 – May 30</strong></div>
+      <div class="phase-meta-item">📍 <strong>~827 km</strong></div>
+      <div class="phase-meta-item">🏔 <strong>Max: 19,024 ft</strong></div>
+    </div>
+  </div>
+
+  <div class="split-cols">
+    <div class="split-col you">
+      <h3>🏍 You + Buddy</h3>
+      <p>KTM 390 ADV from Bangalore. Arrive Leh <strong>May 23 12:30 PM.</strong> After circuit ends at Tsomoriri May 30, head directly to <strong>Manali via Tso Kar</strong>. No return to Leh.</p>
+    </div>
+    <div class="split-col fri">
+      <h3>✈ Friends</h3>
+      <p>Fly Srinagar May 22, bus to Leh. Reach Leh <strong>~May 23 night or May 24 afternoon.</strong> After circuit, ride back to Leh May 30, overnight bus to Srinagar, fly home June 1.</p>
+    </div>
+  </div>
+
+  <div class="info-box good" style="margin:0 16px 12px;">
+    <strong>Acclimatization Note:</strong> Everyone rides together from May 25. Friends have only ~33–36 hours at Leh altitude (3,524m) before Khardung La (5,359m) on May 25. They <strong>must take Diamox from May 22</strong> after doctor consultation. Everyone leaves together at 7 AM — go slow on the ascent, no racing up the pass.
+  </div>
+
+  <div class="ctable-wrap">
+    <table class="ctable">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Day</th>
+          <th>Route</th>
+          <th>KM</th>
+          <th>Max Alt</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="tr-tog">
+          <td>May 24</td>
+          <td>Rest</td>
+          <td>Leh — Acclimatization</td>
+          <td>—</td>
+          <td>3,524m</td>
+          <td>No riding. ALL permits at IMO office (Nubra, Pangong, Hanle, Umling La, Tso Moriri — one visit). Leh Palace, Hall of Fame, market. Sleep early.</td>
+        </tr>
+        <tr class="tr-tog">
+          <td>May 25</td>
+          <td>Day 1</td>
+          <td>Leh → Khardung La → Diskit → Hunder</td>
+          <td>126</td>
+          <td>5,359m</td>
+          <td>Khardung La world's highest motorable road. Diskit Monastery. Bactrian double-hump camels at Hunder sand dunes. Overnight Hunder.</td>
+        </tr>
+        <tr class="tr-tog">
+          <td>May 26</td>
+          <td>Day 2</td>
+          <td>Hunder → Shyok Valley → Pangong Tso</td>
+          <td>200</td>
+          <td>4,350m</td>
+          <td>Raw Shyok Valley — single lane, river crossings. Arrive Pangong afternoon. Overnight on shore. Lake shifts turquoise to cobalt to steel.</td>
+        </tr>
+        <tr class="tr-tog">
+          <td>May 27</td>
+          <td>Day 3</td>
+          <td>Pangong → Chushul → Rezang La → Hanle</td>
+          <td>141</td>
+          <td>4,500m</td>
+          <td>Rezang La War Memorial (1962 — deeply moving). Enter Changthang plateau. Hanle overnight — India's dark sky reserve. Stargaze at 4,500m.</td>
+        </tr>
+        <tr class="tr-tog">
+          <td>May 28</td>
+          <td>Day 4</td>
+          <td>Hanle → Umling La → Hanle</td>
+          <td>150</td>
+          <td>5,799m</td>
+          <td>World's highest civilian road 19,024 ft. Leave 6 AM sharp. 5 hrs up, 5 hrs back. No fuel or food beyond Hanle. Full dedicated day — do NOT combine with other riding.</td>
+        </tr>
+        <tr class="tr-tog">
+          <td>May 29</td>
+          <td>Day 5</td>
+          <td>Hanle → Tsomoriri (Loma–Nyoma–Mahe)</td>
+          <td>150</td>
+          <td>4,522m</td>
+          <td>Black market fuel at Loma/Nyoma. Mahe hot springs — stop for a soak. Korzok village evening. Fill fuel here — last before the split.</td>
+        </tr>
+        <tr class="tr-you">
+          <td>May 30</td>
+          <td>SPLIT — You</td>
+          <td>Tsomoriri → Tso Kar → Pang → Manali</td>
+          <td>~475</td>
+          <td>5,359m</td>
+          <td>Leave 5 AM. Rough first 80 km (Sumdo → Polokong La). Tso Kar salt lake. Puga geothermal fields. 21 Gata Loops. Baralacha La. Rohtang. Manali ~6 PM.</td>
+        </tr>
+        <tr class="tr-fri">
+          <td>May 30</td>
+          <td>SPLIT — Friends</td>
+          <td>Tsomoriri → Chumathang → Upshi → Leh</td>
+          <td>~220</td>
+          <td>3,524m</td>
+          <td>Leave 7 AM. Chumathang hot springs on the way. Leh by 2–3 PM. Return rental bikes immediately. No odd/even restrictions on this road.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="info-box warn" style="margin:0 16px 16px;">
+    <strong>⚠ Rohtang Permit:</strong> Book online at himachalrohtang.nic.in for <strong>May 30</strong> before leaving Leh. Date-specific, vehicle-specific, only 1,200 non-HP vehicles/day. Do this on May 24 while you have network.
+  </div>
+
+</div>
+
+<!-- ═══ PHASE 3A — YOUR EXIT ═════════════════════════════ -->
+<div id="p3a" class="panel">
+
+  <div class="phase-hdr p3a">
+    <div class="phase-tag">Phase 3A — Your Route</div>
+    <div class="phase-title">Tsomoriri → Manali → Delhi</div>
+    <div class="phase-meta">
+      <div class="phase-meta-item">📅 <strong>May 30 – June 3</strong></div>
+      <div class="phase-meta-item">📍 <strong>~975 km</strong></div>
+    </div>
+  </div>
+
+  <div class="days">
+
+    <div class="day split-you" onclick="toggleDay(this)">
+      <div class="day-head">
+        <div class="day-num-wrap"><div class="day-num">E1</div><div class="day-date">MAY 30</div></div>
+        <div class="day-head-content">
+          <div class="day-route">Tsomoriri → Manali</div>
+          <div class="day-km">~475 km · Leave 5 AM → Arrive 5:30–6 PM · No Jispa stop</div>
+        </div>
+        <div class="day-chevron">▼</div>
+      </div>
+      <div class="day-body"><div class="day-body-inner">
+        <div class="day-desc">Leave Korzok at <b>5 AM sharp</b> — rough section needs full daylight. Korzok → Sumdo → <b>Polokong La</b> (sandy, steep, challenging ~80 km dirt) → <b>Puga geothermal fields</b> (geysers, sulphur springs — surreal 10-min stop) → <b>Tso Kar</b> (white salt lake, 4,530m, almost zero tourists — stunning free bonus) → Debring joins NH-3 → Pang → <b>21 Gata Loops</b> → Sarchu → <b>Baralacha La (4,890m)</b> → Zing Zing Bar → Keylong → <b>Rohtang Pass (3,978m)</b> → descend into Kullu Valley → <b>Manali by 5:30–6 PM.</b><br/><br/><b>Critical waypoints:</b> Tso Kar by 9:30 AM · Pang joins NH-3 by 11 AM · Sarchu by 1 PM · Rohtang before 4 PM (tourist traffic jams after 4 PM). If you miss Sarchu by 2 PM — consider whether to push.</div>
+        <div class="day-tags">
+          <span class="tag warn">⚠ 5 AM Start — Non-Negotiable</span>
+          <span class="tag good">🧂 Tso Kar Salt Lake — Free Bonus</span>
+          <span class="tag good">🌋 Puga Geothermal Fields</span>
+          <span class="tag">🌀 21 Gata Loops</span>
+          <span class="tag warn">Cross Rohtang Before 4 PM</span>
+          <span class="tag warn">Rohtang Permit Pre-Booked?</span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="day rest" onclick="toggleDay(this)">
+      <div class="day-head">
+        <div class="day-num-wrap"><div class="day-num">E2</div><div class="day-date">MAY 31</div></div>
+        <div class="day-head-content">
+          <div class="day-route">Manali — Rest + Sightseeing</div>
+          <div class="day-km">Zero long riding · Celebrate</div>
+        </div>
+        <div class="day-chevron">▼</div>
+      </div>
+      <div class="day-body"><div class="day-body-inner">
+        <div class="day-desc"><b>Hadimba Devi Temple</b> (1553 AD, cedar forest, 10 min from town) → <b>Vashisht hot sulphur springs</b> (mandatory after 16 days of riding — sore muscles, sorted) → <b>Solang Valley</b> (20 km, snow + spectacular views) → Old Manali village cafes → <b>Mall Road dinner</b> — Siddu, trout, Tibetan momos, apple cider.<br/><br/><b>Important:</b> Call VRL Logistics today — confirm June 2 Delhi slot for bike courier.</div>
+        <div class="day-tags">
+          <span class="tag good">🛕 Hadimba Temple</span>
+          <span class="tag good">♨ Vashisht Hot Springs</span>
+          <span class="tag good">🌄 Solang Valley</span>
+          <span class="tag good">🍜 Mall Road Food</span>
+          <span class="tag warn">📞 Call VRL — Confirm June 2 Slot</span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="day mtn" onclick="toggleDay(this)">
+      <div class="day-head">
+        <div class="day-num-wrap"><div class="day-num">E3</div><div class="day-date">JUN 1</div></div>
+        <div class="day-head-content">
+          <div class="day-route">Manali → Delhi</div>
+          <div class="day-km">500 km · 9 hrs · Leave 6 AM → Arrive 4 PM</div>
+        </div>
+        <div class="day-chevron">▼</div>
+      </div>
+      <div class="day-body"><div class="day-body-inner">
+        <div class="day-desc">Last riding day. Kullu → Mandi → Kiratpur → Chandigarh → Delhi. Good highways once out of HP hills. Reach Delhi by 4 PM. Check into hotel near VRL branch. Rest. Prep for courier tomorrow.</div>
+        <div class="day-tags">
+          <span class="tag good">🏁 Last Riding Day</span>
+          <span class="tag">NH-3 → NH-44</span>
+          <span class="tag">Hotel Near VRL Delhi Branch</span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="day split-you" onclick="toggleDay(this)">
+      <div class="day-head">
+        <div class="day-num-wrap"><div class="day-num">E4</div><div class="day-date">JUN 2</div></div>
+        <div class="day-head-content">
+          <div class="day-route">Delhi — Ship Bike via VRL</div>
+          <div class="day-km">VRL Logistics · Cage System · Delhi → Bangalore</div>
+        </div>
+        <div class="day-chevron">▼</div>
+      </div>
+      <div class="day-body"><div class="day-body-inner">
+        <div class="day-desc"><b>Drain fuel completely</b> (mandatory — no exceptions). Ride to VRL Delhi branch (Rama Road, Zakhira Circle, New Delhi 110015). Metal cage packing — bike rolls in, cage locks around it, nobody touches the bike again until Bangalore. Take <b>transit insurance</b> (₹500–1,500 for ₹4 lakh coverage). Photograph bike from all angles before handover. Collect <b>consignment receipt</b> with tracking number. <b>Bike arrives Bangalore June 7–9.</b> Evening free — rest, explore Delhi briefly.</div>
+        <div class="day-tags">
+          <span class="tag warn">⛽ Drain Fuel — Mandatory</span>
+          <span class="tag good">🔒 Cage System — Safest Option</span>
+          <span class="tag warn">Take Transit Insurance</span>
+          <span class="tag">VRL: 1800 599 7800</span>
+          <span class="tag good">Bike Arrives BLR June 7–9</span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="day arr" onclick="toggleDay(this)">
+      <div class="day-head">
+        <div class="day-num-wrap"><div class="day-num">E5</div><div class="day-date">JUN 3</div></div>
+        <div class="day-head-content">
+          <div class="day-route">Delhi → Bangalore ✈</div>
+          <div class="day-km">Afternoon flight · Trip Complete</div>
+        </div>
+        <div class="day-chevron">▼</div>
+      </div>
+      <div class="day-body"><div class="day-body-inner">
+        <div class="day-desc">Check out of hotel. Wear riding gear on the flight — jacket, pants, boots. Carry helmet as cabin baggage (fits within 7 kg limit, stuff gloves + balaclava inside). Camera + Insta360 always in cabin bag — never checked. Viaterra tail bag as checked luggage (~12–14 kg, within free allowance). Arrive Bangalore. Trip. Complete.</div>
+        <div class="day-tags">
+          <span class="tag good">✈ Afternoon Flight</span>
+          <span class="tag">Wear Riding Gear — Allowed</span>
+          <span class="tag">Helmet as Cabin Bag</span>
+          <span class="tag good">Camera Always Cabin — Never Check</span>
+          <span class="tag good">🎉 Trip Complete!</span>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+
+  <div class="sec-title">⛽ Fuel Map — Tsomoriri to Manali</div>
+  <div class="fuel-grid">
+    <div class="fuel-stop blk"><div class="fuel-name">Korzok (Tso)</div><div class="fuel-type">⚠ Black market · Fill tank + jerry can before leaving</div></div>
+    <div class="fuel-stop blk"><div class="fuel-name">Loma / Nyoma</div><div class="fuel-type">⚠ Small shops · Cloth-filter the fuel</div></div>
+    <div class="fuel-stop blk"><div class="fuel-name">Pang Dhabas</div><div class="fuel-type">⚠ Seasonal tents · May–Oct only</div></div>
+    <div class="fuel-stop blk"><div class="fuel-name">Sarchu Dhabas</div><div class="fuel-type">⚠ Seasonal camps · Available May</div></div>
+    <div class="fuel-stop off"><div class="fuel-name">Tandi ✅</div><div class="fuel-type">First official pump · Fill completely</div></div>
+    <div class="fuel-stop off"><div class="fuel-name">Keylong ✅</div><div class="fuel-type">Official pump · 35 km after Tandi</div></div>
+    <div class="fuel-stop off"><div class="fuel-name">Manali ✅✅</div><div class="fuel-type">Multiple pumps · Fill full tank</div></div>
+  </div>
+
+</div>
+
+<!-- ═══ PHASE 3B — FRIENDS ════════════════════════════════ -->
+<div id="p3b" class="panel">
+
+  <div class="phase-hdr p3b">
+    <div class="phase-tag">Phase 3B — Friends' Route</div>
+    <div class="phase-title">Tsomoriri → Leh → Srinagar → Home</div>
+    <div class="phase-meta">
+      <div class="phase-meta-item">📅 <strong>May 30 – June 1</strong></div>
+      <div class="phase-meta-item">📍 <strong>~220 km riding</strong></div>
+    </div>
+  </div>
+
+  <div class="info-box fri" style="margin:16px;">
+    <strong>Route Note:</strong> Tsomoriri → Sumdo → Chumathang → Upshi → Leh is the Changthang inner road — completely separate from NH-3. <strong>No one-way or odd/even restrictions.</strong> Ride any day, any direction, freely.
+  </div>
+
+  <div class="friends-journey">
+
+    <div class="fj-day">
+      <div class="fj-date">May 30<span>Split Day</span></div>
+      <div class="fj-content">
+        <div class="fj-route">Tsomoriri → Chumathang → Leh</div>
+        <div class="fj-note">Leave Korzok <strong>7 AM.</strong> Sumdo → Chumathang hot springs (20-min stop, right on road) → Upshi → joins NH-1 → Leh by 2–3 PM. Return rental bikes <strong>immediately</strong> — agencies need time to inspect. Photograph bike before return. Evening rest in Leh.</div>
+      </div>
+    </div>
+
+    <div class="fj-day">
+      <div class="fj-date">May 31<span>Leh Rest</span></div>
+      <div class="fj-content">
+        <div class="fj-route">Leh — Final Day</div>
+        <div class="fj-note">Buffer day — important. Thiksey Monastery (40 km, magnificent) if not done earlier. Hemis Monastery. Hall of Fame. Final shopping — Pashmina, turquoise jewellery, saffron, dry fruits. <strong>Board overnight private bus at 5:30–6 PM → Srinagar.</strong></div>
+      </div>
+    </div>
+
+    <div class="fj-day">
+      <div class="fj-date">Jun 1<span>Fly Home</span></div>
+      <div class="fj-content">
+        <div class="fj-route">Arrive Srinagar 7:30–8 AM → Fly Home ✈</div>
+        <div class="fj-note">Overnight bus arrives Srinagar morning. Freshen up at hotel. Afternoon/evening flight home. Srinagar has more flight options than Leh — more airlines, better slots, less weather cancellation risk. <strong>Book SXR flights well in advance.</strong></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="info-box fri" style="margin:0 16px 16px;">
+    <strong>Overnight Bus Leh → Srinagar:</strong> Private mini-buses depart daily ~5:30–6 PM from Leh. Non-stop overnight. Arrive Srinagar ~7:30–8 AM next morning. Individual cushion seats. Cost: ₹1,200–1,500 per person. Book through hotel or travel agents near Leh main market.
+  </div>
+
+  <div class="sec-title">🚌 JKSRTC Bus — Srinagar to Leh (Incoming)</div>
+  <div style="margin:0 16px 16px;">
+    <div class="info-box" style="margin:0;">
+      Departs TRC Dal Gate <strong>7–8 AM.</strong> Reaches Kargil <strong>4–5 PM</strong> (overnight there). Next day departs Kargil <strong>6 AM</strong> → Leh <strong>3–4 PM.</strong> Always a 2-day journey — no same-day option exists. Buy tickets <strong>in person at TRC on May 22 evening</strong> — no online booking. Super Deluxe: <strong>₹1,320.</strong> Contact: <strong>0194-2452058</strong>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ GEAR & PACKING ════════════════════════════════════ -->
+<div id="gear" class="panel">
+
+  <div class="phase-hdr ptips">
+    <div class="phase-tag">Packing List</div>
+    <div class="phase-title">Gear & Toolkit</div>
+    <div class="phase-meta">
+      <div class="phase-meta-item">🎒 <strong>Viaterra 55L tail bag</strong></div>
+      <div class="phase-meta-item">📦 <strong>Urban Tribe bungeed</strong></div>
+      <div class="phase-meta-item">⚖ <strong>Target: under 25 kg total</strong></div>
+    </div>
+  </div>
+
+  <div class="info-box good" style="margin:16px 16px 8px;">
+    <strong>Packing Layout:</strong> Viaterra 55L → tools + clothes + medical + camera. Urban Tribe (bungeed on rack) → rain gear + down jackets quick access. Tank bag → phone, cash, snacks, powerbank. Jerry can mounted externally on rack side.
+  </div>
+
+  <div class="gear-section">
+    <div class="gear-section-title">🔴 Spares & Tools — Non-Negotiable</div>
+    <div class="gear-grid">
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Spare inner tubes</strong> <span class="qty">× 2</span><br/>Correct size for your KTM tyres. Spoke wheels = tube tyres.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Tyre levers</strong> <span class="qty">× 3</span><br/>Can't change tube without them.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>12V electric pump</strong> <span class="qty">× 1</span><br/>Rynoair or Michelin. Run engine while inflating.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Puncture patches (Rema Tip Top)</strong> <span class="qty">× 1 kit</span><br/>If tube gets another hole.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Chain lube spray</strong> <span class="qty">× 1</span><br/>Lube every 500 km. Ladakh dust destroys chains.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Master links (520 size)</strong> <span class="qty">× 2</span><br/>KTM 390 ADV spec. Chain snap recovery.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Spark plugs (NGK — KTM spec)</strong> <span class="qty">× 2</span><br/>Altitude causes fouling. Backup after service.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Fuses (10A, 15A, 20A)</strong> <span class="qty">× 3 each</span><br/>Blown fuse = stranded bike.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Fuel funnel with mesh filter</strong> <span class="qty">× 1</span><br/>Filter black market fuel at Hanle, Korzok, Pang.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>5L metal jerry can</strong> <span class="qty">× 1</span><br/>730 km without official pump. Non-negotiable.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Valve core remover</strong> <span class="qty">× 1</span><br/>Tiny, weighs nothing. Needed for tube swap.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Spoke key</strong> <span class="qty">× 1</span><br/>Check spoke tension every few days on rough terrain.</div></div>
+    </div>
+  </div>
+
+  <div class="gear-section">
+    <div class="gear-section-title">🟡 Tools — Important</div>
+    <div class="gear-grid">
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Allen key folding set (3–10mm)</strong><br/>KTM uses Allen bolts everywhere.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Spanners: 8, 10, 12, 17mm only</strong><br/>Covers 90% of needs. Don't carry full set.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Duct tape (heavy duty)</strong> <span class="qty">× 1 roll</span><br/>Fixes fairings, seals, hose leaks temporarily.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Zip ties (assorted)</strong> <span class="qty">× 20</span><br/>Fix anything temporarily.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Loctite 243 (blue threadlocker)</strong><br/>Apply to critical bolts — stops vibration loosening.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Electrical tape</strong> <span class="qty">× 1 roll</span><br/>Wire fixes.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>M6, M8 bolts + nuts</strong> <span class="qty">× 5 each</span><br/>Vibration loosens bolts on mountain roads.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Small adjustable wrench</strong> <span class="qty">× 1</span><br/>Covers any spanner size you don't have.</div></div>
+    </div>
+  </div>
+
+  <div class="gear-section">
+    <div class="gear-section-title">👕 Clothing — Both Riders Combined</div>
+    <div class="gear-grid">
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Thermal base layer top + bottom</strong> <span class="qty">× 1 set each</span><br/>Passes are -5°C May mornings.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>T-shirts (synthetic/merino)</strong> <span class="qty">× 3 each</span><br/>Rotate. Wash every 2–3 days.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Underwear</strong> <span class="qty">× 4 each</span><br/>Wash and dry overnight.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Riding socks (thick wool)</strong> <span class="qty">× 3 pairs each</span><br/>Wear inside boots.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Regular socks</strong> <span class="qty">× 2 pairs each</span><br/>Off-bike evenings.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Trek pants / light jeans</strong> <span class="qty">× 1 each</span><br/>Off-bike use. One is enough.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Packable down jacket</strong> <span class="qty">× 1 each</span><br/>Hanle and Tsomoriri nights. Compresses to 1L.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Rain jacket + rain pants</strong> <span class="qty">× 1 set each</span><br/>Zoji La and Rohtang get wet without warning.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Balaclava</strong> <span class="qty">× 1 each</span><br/>Under helmet at Khardung La and Umling La.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Neck gaiter (Buff)</strong> <span class="qty">× 1 each</span><br/>Dust + cold.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Winter riding gloves</strong> <span class="qty">× 1 pair each</span><br/>Packed — worn at passes.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Flip flops</strong> <span class="qty">× 1 pair each</span><br/>Evening hotel use.</div></div>
+    </div>
+  </div>
+
+  <div class="gear-section">
+    <div class="gear-section-title">💊 Medical Kit</div>
+    <div class="gear-grid">
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Diamox 250mg (Acetazolamide)</strong><br/>AMS prevention. Consult doctor before trip.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Paracetamol (Crocin 500mg)</strong> <span class="qty">× 20</span><br/>Headache, fever — most common altitude issue.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Ibuprofen 400mg</strong> <span class="qty">× 20</span><br/>Pain, inflammation.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>ORS sachets</strong> <span class="qty">× 10</span><br/>Dehydration at altitude. Drink one every morning.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Avomine (travel sickness)</strong> <span class="qty">× 10</span><br/>For pillion on winding mountain roads.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Loperamide (Imodium)</strong> <span class="qty">× 10</span><br/>Stomach issues on route.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Betadine ointment</strong> <span class="qty">× 1</span><br/>Cuts and abrasions.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Band-aids + crepe bandage</strong><br/>Minor cuts and sprain support.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Sunscreen SPF 50+</strong> <span class="qty">× 1 tube</span><br/>UV at 5,000m is extreme. Both riders.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Lip balm SPF</strong> <span class="qty">× 2</span><br/>Lips crack badly at altitude.</div></div>
+    </div>
+  </div>
+
+  <div class="gear-section">
+    <div class="gear-section-title">📱 Navigation & Electronics</div>
+    <div class="gear-grid">
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Quad Lock phone mount + vibration damper</strong><br/>Regular mounts crack phone camera on KTM. Non-negotiable.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>BSNL postpaid SIM</strong><br/>Only network beyond Leh. Get in Jammu or Leh on May 24.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Offline maps downloaded</strong><br/>Maps.me — Ladakh region. Download before leaving Leh.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Powerbank 20,000 mAh</strong><br/>Phone GPS drains fast. Anker or MI.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Camera + Insta360</strong><br/>In padded pouch in tail bag. Keep Insta360 + batteries in jacket pocket at passes — cold kills batteries.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Extra batteries (inner jacket pocket at altitude)</strong><br/>Body warmth keeps them alive. -5°C kills cold batteries fast.</div></div>
+    </div>
+  </div>
+
+  <div class="gear-section">
+    <div class="gear-section-title">📄 Documents</div>
+    <div class="gear-grid">
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>RC Book — original</strong><br/>Mandatory at every checkpost.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Driving Licence — original</strong></div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Insurance document — original + copies</strong></div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Aadhaar / ID — 5 photocopies</strong><br/>Checkposts ask constantly.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>ILP permit copies — 5 each</strong><br/>Nubra, Pangong, Hanle, Umling La, Tso Moriri.</div></div>
+      <div class="gear-item" onclick="toggleGear(this)"><input type="checkbox"/><div class="gear-text"><strong>Rohtang permit printout</strong><br/>Book at himachalrohtang.nic.in for May 30.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ TIPS ══════════════════════════════════════════════ -->
+<div id="tips" class="panel">
+
+  <div class="phase-hdr ptips">
+    <div class="phase-tag">Critical Knowledge</div>
+    <div class="phase-title">Tips & Prep</div>
+    <div class="phase-meta">
+      <div class="phase-meta-item">⚠ <strong>Read before you leave</strong></div>
+    </div>
+  </div>
+
+  <div class="tips-grid" style="margin:16px 16px 8px;">
+
+    <div class="tip">
+      <div class="tip-icon">📋</div>
+      <div class="tip-title">Permits</div>
+      <div class="tip-body">Get ALL ILPs at IMO Office Leh on <strong>May 24</strong> — one visit: Nubra, Pangong, Hanle, Umling La, Tso Moriri. Carry 5 photocopies of each. <strong>Rohtang permit:</strong> himachalrohtang.nic.in — book for May 30 before leaving Leh.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-icon">🔧</div>
+      <div class="tip-title">KTM 390 ADV Specific</div>
+      <div class="tip-body">Spoke wheels = tube tyres — carry 2 spare tubes. Drop tyre pressure to <strong>28–30 psi on gravel.</strong> Tank: 14.5L gives ~250–280 km in Ladakh (30% less than normal). WP suspension — run slightly softer on gravel. Run engine while using 12V pump.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-icon">🏥</div>
+      <div class="tip-title">Altitude & AMS</div>
+      <div class="tip-body">Consult doctor about <strong>Diamox</strong> before trip. Drink 4–5L water daily. No alcohol first 48 hrs in Leh. AMS symptoms: severe headache, vomiting, confusion — <strong>descend 500m immediately.</strong> Don't push through it. Friends start Diamox from May 22.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-icon">⛽</div>
+      <div class="tip-title">Fuel Strategy</div>
+      <div class="tip-body"><strong>5L metal jerry can mandatory.</strong> No official pump Leh to Tandi (~730 km via Tsomoriri route). Black market at Hanle, Korzok, Nyoma, Pang, Sarchu dhabas. Filter through cloth. Fuel is ₹15–20 costlier per litre in Ladakh.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-icon">📱</div>
+      <div class="tip-title">Connectivity</div>
+      <div class="tip-body"><strong>Only BSNL postpaid</strong> works beyond Leh. Jio/Airtel only in Leh city. Get BSNL SIM in Jammu or Leh. Download Maps.me offline before leaving Leh. Garmin inReach strongly recommended for Hanle–Umling–Tsomoriri belt.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-icon">🧥</div>
+      <div class="tip-title">Gear & Weather</div>
+      <div class="tip-body">May pass mornings: <strong>-5°C to 0°C.</strong> Thermal layers + windproof jacket essential. Rain gear for Zoji La and Rohtang. <strong>SPF 50+ mandatory</strong> — UV at 5,000m is extreme. Balaclava for Khardung La and Umling La.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-icon">🗺</div>
+      <div class="tip-title">Road Conditions</div>
+      <div class="tip-body">Verify Leh–Manali highway open status (BRO clears mid-May). Tsomoriri–Sumdo–Tso Kar: rough dirt 80 km. Shyok Valley: single lane, river crossings. <strong>Always start mountain stretches before 8 AM.</strong> Check BRO updates.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-icon">🏍</div>
+      <div class="tip-title">VRL Bike Courier</div>
+      <div class="tip-body"><strong>Call 1800 599 7800 before May 15</strong> — book large cage slot for June 2, get reference number. Drain fuel completely. Take transit insurance. Cage system: bike rolls in, nobody touches it again until Bangalore. Arrives BLR June 7–9.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-icon">📸</div>
+      <div class="tip-title">Camera at Altitude</div>
+      <div class="tip-body">Insta360 + camera batteries lose <strong>40–50% capacity at -5°C.</strong> Keep spare batteries in inner jacket pocket (body warmth) not in bag. Memory cards always in jacket pocket — never in checked luggage.</div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-icon">✈</div>
+      <div class="tip-title">Flight Back (Jun 3)</div>
+      <div class="tip-body">Wear riding gear on flight — allowed. Helmet as cabin bag (stuff gloves inside — within 7 kg limit). Camera always cabin — never check it. Viaterra tail bag as checked luggage (~12–14 kg, within free allowance).</div>
+    </div>
+
+  </div>
+
+  <div class="sec-title">⚠ Common Mistakes — Don't Make These</div>
+  <div class="checklist" style="margin-bottom:16px;">
+    <div class="check-item" onclick="this.classList.toggle('checked');this.querySelector('input').checked=!this.querySelector('input').checked">
+      <input type="checkbox"/>
+      <div class="check-label"><strong>Book Rohtang permit online for May 30</strong><div class="check-sub">Do this from Leh on May 24. Date-specific, 1,200 vehicle limit. Miss this = turned back at Rohtang.</div></div>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked');this.querySelector('input').checked=!this.querySelector('input').checked">
+      <input type="checkbox"/>
+      <div class="check-label"><strong>Call VRL before May 15 — book large cage for June 2</strong><div class="check-sub">Get booking reference. Call again from Manali on May 31 to reconfirm.</div></div>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked');this.querySelector('input').checked=!this.querySelector('input').checked">
+      <input type="checkbox"/>
+      <div class="check-label"><strong>Friends book rental bikes in Leh NOW</strong><div class="check-sub">May is peak season — bikes book out weeks in advance. Wander Bikes Leh or Stok Adventures.</div></div>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked');this.querySelector('input').checked=!this.querySelector('input').checked">
+      <input type="checkbox"/>
+      <div class="check-label"><strong>Carry 2 spare tubes for KTM spoke wheels</strong><div class="check-sub">Sharp rocks on Sumdo–Polokong La section. No help coming at 5 AM in the middle of nowhere.</div></div>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked');this.querySelector('input').checked=!this.querySelector('input').checked">
+      <input type="checkbox"/>
+      <div class="check-label"><strong>Friends start Diamox from May 22 after doctor consultation</strong><div class="check-sub">Only 33–36 hours at Leh altitude before Khardung La on May 25. AMS risk without precaution.</div></div>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked');this.querySelector('input').checked=!this.querySelector('input').checked">
+      <input type="checkbox"/>
+      <div class="check-label"><strong>Get BSNL postpaid SIM in Leh on May 24</strong><div class="check-sub">Only network beyond Leh. Jio and Airtel completely dead in Ladakh circuit.</div></div>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked');this.querySelector('input').checked=!this.querySelector('input').checked">
+      <input type="checkbox"/>
+      <div class="check-label"><strong>Don't fix Umling La as guaranteed — conditional on how everyone feels</strong><div class="check-sub">One night at Hanle (4,500m) before 5,799m is aggressive. If anyone has AMS symptoms May 28 morning — postpone.</div></div>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked');this.querySelector('input').checked=!this.querySelector('input').checked">
+      <input type="checkbox"/>
+      <div class="check-label"><strong>Set mental cutoff for May 30 Tsomoriri→Manali</strong><div class="check-sub">If not past Sarchu by 2 PM — seriously evaluate pushing to Manali. Safety over schedule.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ SUMMARY ════════════════════════════════════════════ -->
+<div id="summary" class="panel">
+
+  <div class="phase-hdr p2">
+    <div class="phase-tag">Full Trip</div>
+    <div class="phase-title">Summary & Key Dates</div>
+  </div>
+
+  <div class="sec-title">📊 Trip Overview</div>
+  <div class="sum-wrap">
+    <table class="sum-table">
+      <thead>
+        <tr><th>Phase</th><th>Route</th><th>Dates</th><th>KM</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1 — Approach</td><td>Bangalore → Pune → Dhar → Ajmer → Amritsar → Srinagar → Kargil → Leh</td><td>May 15–23</td><td>~3,924</td></tr>
+        <tr><td>2 — Circuit</td><td>Leh → Khardung La → Nubra → Pangong → Hanle → Umling La → Tsomoriri</td><td>May 24–30</td><td>~827</td></tr>
+        <tr><td>3A — Your Exit</td><td>Tsomoriri → Tso Kar → Manali → Delhi → Fly</td><td>May 30–Jun 3</td><td>~975</td></tr>
+        <tr><td>3B — Friends</td><td>Tsomoriri → Leh → Overnight bus → Srinagar → Fly</td><td>May 30–Jun 1</td><td>~220</td></tr>
+        <tr><td><strong>Total (You)</strong></td><td><strong>Bangalore → Leh → Manali → Delhi</strong></td><td><strong>May 15–Jun 3</strong></td><td><strong>~5,726</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec-title">📅 Key Dates at a Glance</div>
+  <div class="kd-grid">
+    <div class="kd-row kd-hdr">
+      <div class="kd-cell">Date</div>
+      <div class="kd-cell you-cell">🏍 You</div>
+      <div class="kd-cell fri-cell">✈ Friends</div>
+    </div>
+    <div class="kd-row"><div class="kd-cell">May 15</div><div class="kd-cell">Leave Bangalore 4:30 AM</div><div class="kd-cell">—</div></div>
+    <div class="kd-row"><div class="kd-cell">May 19</div><div class="kd-cell">Amritsar — Golden Temple night</div><div class="kd-cell">—</div></div>
+    <div class="kd-row"><div class="kd-cell">May 20</div><div class="kd-cell">4AM temple → Wagha photo → Srinagar</div><div class="kd-cell">—</div></div>
+    <div class="kd-row"><div class="kd-cell">May 21</div><div class="kd-cell">Full day Srinagar</div><div class="kd-cell">—</div></div>
+    <div class="kd-row"><div class="kd-cell">May 22</div><div class="kd-cell">Srinagar → Kargil (leave 12 PM)</div><div class="kd-cell">Fly to Srinagar · Buy bus tickets at TRC</div></div>
+    <div class="kd-row"><div class="kd-cell">May 23</div><div class="kd-cell">Kargil → Leh (arrive 12:30 PM)</div><div class="kd-cell">Bus Day 1 → Kargil overnight</div></div>
+    <div class="kd-row"><div class="kd-cell">May 24</div><div class="kd-cell">Leh — rest, permits, Shanti Stupa</div><div class="kd-cell">Bus Day 2 → Leh 3–4 PM · Collect bikes + permits</div></div>
+    <div class="kd-row"><div class="kd-cell">May 25</div><div class="kd-cell">Circuit Day 1 → Hunder</div><div class="kd-cell">Circuit Day 1 → Hunder (together)</div></div>
+    <div class="kd-row"><div class="kd-cell">May 28</div><div class="kd-cell">Umling La 19,024 ft 🏆</div><div class="kd-cell">Umling La 19,024 ft 🏆</div></div>
+    <div class="kd-row"><div class="kd-cell">May 29</div><div class="kd-cell">Hanle → Tsomoriri</div><div class="kd-cell">Hanle → Tsomoriri</div></div>
+    <div class="kd-row"><div class="kd-cell"><strong>May 30</strong></div><div class="kd-cell"><strong>SPLIT → Manali (5 AM)</strong></div><div class="kd-cell"><strong>SPLIT → Leh (7 AM)</strong></div></div>
+    <div class="kd-row"><div class="kd-cell">May 31</div><div class="kd-cell">Rest Manali · Call VRL</div><div class="kd-cell">Leh rest · 6 PM overnight bus → Srinagar</div></div>
+    <div class="kd-row"><div class="kd-cell">Jun 1</div><div class="kd-cell">Manali → Delhi (last ride)</div><div class="kd-cell">Arrive Srinagar 8 AM · Fly home ✈</div></div>
+    <div class="kd-row"><div class="kd-cell">Jun 2</div><div class="kd-cell">Ship bike — VRL Delhi</div><div class="kd-cell">—</div></div>
+    <div class="kd-row"><div class="kd-cell"><strong>Jun 3</strong></div><div class="kd-cell"><strong>Fly Bangalore — Afternoon ✈</strong></div><div class="kd-cell">—</div></div>
+  </div>
+
+  <div class="sec-title">📋 Permits Checklist</div>
+  <div class="checklist" style="margin-bottom:16px;">
+    <div class="check-item" onclick="this.classList.toggle('checked');this.querySelector('input').checked=!this.querySelector('input').checked">
+      <input type="checkbox"/>
+      <div class="check-label"><strong>ILP — Nubra Valley</strong> (Khardung La, Diskit, Hunder)<div class="check-sub">IMO Office Leh — in person on May 24</div></div>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked');this.querySelector('input').checked=!this.querySelector('input').checked">
+      <input type="checkbox"/>
+      <div class="check-label"><strong>ILP — Pangong Tso</strong><div class="check-sub">IMO Office Leh — in person on May 24</div></div>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked');this.querySelector('input').checked=!this.querySelector('input').checked">
+      <input type="checkbox"/>
+      <div class="check-label"><strong>ILP — Hanle + Umling La</strong><div class="check-sub">IMO Office Leh — in person on May 24</div></div>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked');this.querySelector('input').checked=!this.querySelector('input').checked">
+      <input type="checkbox"/>
+      <div class="check-label"><strong>ILP — Tso Moriri (Tsomoriri)</strong><div class="check-sub">IMO Office Leh — in person on May 24</div></div>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked');this.querySelector('input').checked=!this.querySelector('input').checked">
+      <input type="checkbox"/>
+      <div class="check-label"><strong>Rohtang Pass Permit — May 30</strong><div class="check-sub">himachalrohtang.nic.in — book online before May 25</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-title">Ride Safe. Ride Proud.</div>
+  <div class="footer-sub">
+    Bangalore → Leh Odyssey · May–June 2026<br/>
+    KTM 390 ADV Spoke · 5,726 km · Highest: Umling La 19,024 ft<br/>
+    <span style="color:var(--amber);">May 15 departure · June 3 home</span>
+  </div>
+</footer>
+
+<script>
+// ── TAB NAVIGATION ──────────────────────────────────────
+function showPanel(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: document.querySelector('.nav').offsetTop - 1, behavior: 'smooth' });
+}
+
+// ── ACCORDION DAYS ──────────────────────────────────────
+function toggleDay(el) {
+  const isOpen = el.classList.contains('open');
+  // close all in same panel
+  const panel = el.closest('.panel');
+  panel.querySelectorAll('.day.open').forEach(d => d.classList.remove('open'));
+  if (!isOpen) el.classList.add('open');
+}
+
+// ── GEAR CHECKBOXES ─────────────────────────────────────
+function toggleGear(el) {
+  el.classList.toggle('checked');
+  el.querySelector('input').checked = el.classList.contains('checked');
+}
+
+// ── SAVE CHECKBOX STATE ─────────────────────────────────
+function saveState() {
+  const state = {};
+  document.querySelectorAll('input[type=checkbox]').forEach((cb, i) => {
+    state[i] = cb.checked;
+  });
+  try { localStorage.setItem('leh_odyssey_state', JSON.stringify(state)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const state = JSON.parse(localStorage.getItem('leh_odyssey_state') || '{}');
+    document.querySelectorAll('input[type=checkbox]').forEach((cb, i) => {
+      if (state[i]) {
+        cb.checked = true;
+        const parent = cb.closest('.check-item, .gear-item');
+        if (parent) parent.classList.add('checked');
+      }
+    });
+  } catch(e) {}
+}
+
+document.addEventListener('change', saveState);
+document.addEventListener('DOMContentLoaded', loadState);
+
+// ── NAV SCROLL ACTIVE ───────────────────────────────────
+// Ensure nav scrolls to active button on mobile
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  });
+});
+</script>
+</body>
+</html>
