@@ -4,6 +4,13 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <title>Leh Odyssey — Bangalore to Leh 2026</title>
+<link rel="manifest" href="/manifest.json"/>
+<meta name="theme-color" content="#0e0d0b"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Leh Odyssey"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%230e0d0b' rx='40'/><text x='96' y='130' font-size='100' text-anchor='middle'>🏍️</text></svg>"/>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:wght@700;900&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
 <style>
 :root{
@@ -826,10 +833,363 @@ body::before{
   50%{transform:rotate(45deg) translateY(5px);}
 }
 
-/* ── SCROLLBAR ─────────────────────────────────────── */
+/* ── TRIP BOARD ────────────────────────────────────── */
+.board-compose{
+  margin:16px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  overflow:hidden;
+}
+
+.board-compose-header{
+  padding:14px 16px;
+  background:var(--surface2);
+  border-bottom:1px solid var(--border);
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--amber);
+}
+
+.board-form{
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.board-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+@media(max-width:480px){
+  .board-row{grid-template-columns:1fr;}
+}
+
+.board-input{
+  width:100%;
+  padding:10px 12px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  color:var(--text);
+  font-family:'Barlow',sans-serif;
+  font-size:13px;
+  font-weight:300;
+  outline:none;
+  transition:border-color .2s;
+  -webkit-appearance:none;
+  border-radius:0;
+}
+
+.board-input:focus{border-color:var(--amber);}
+.board-input::placeholder{color:var(--muted);}
+
+.board-textarea{
+  width:100%;
+  padding:10px 12px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  color:var(--text);
+  font-family:'Barlow',sans-serif;
+  font-size:13px;
+  font-weight:300;
+  outline:none;
+  resize:vertical;
+  min-height:80px;
+  transition:border-color .2s;
+  -webkit-appearance:none;
+  border-radius:0;
+}
+
+.board-textarea:focus{border-color:var(--amber);}
+.board-textarea::placeholder{color:var(--muted);}
+
+.board-select{
+  width:100%;
+  padding:10px 12px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  color:var(--text);
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:12px;
+  letter-spacing:1px;
+  outline:none;
+  cursor:pointer;
+  -webkit-appearance:none;
+  border-radius:0;
+}
+
+.board-select:focus{border-color:var(--amber);}
+
+.board-submit{
+  padding:12px 24px;
+  background:var(--rust);
+  border:none;
+  color:white;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:12px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:background .2s, transform .1s;
+  align-self:flex-start;
+}
+
+.board-submit:hover{background:#e05828;}
+.board-submit:active{transform:scale(.98);}
+.board-submit:disabled{background:var(--muted);cursor:not-allowed;}
+
+.board-char-count{
+  font-size:10px;
+  color:var(--muted);
+  text-align:right;
+  margin-top:-6px;
+}
+
+.board-char-count.warn{color:var(--rust);}
+
+/* Notes feed */
+.board-feed{margin:0 16px 16px;}
+
+.board-loading{
+  text-align:center;
+  padding:40px;
+  color:var(--muted);
+  font-size:13px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  font-family:'Barlow Condensed',sans-serif;
+}
+
+.board-empty{
+  text-align:center;
+  padding:40px 20px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.8;
+  border:1px dashed var(--border);
+}
+
+.note-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-left:3px solid var(--rust);
+  padding:14px 16px;
+  margin-bottom:8px;
+  animation:fadeUp .3s forwards;
+  position:relative;
+}
+
+.note-card.cat-update{border-left-color:var(--pine);}
+.note-card.cat-question{border-left-color:var(--sky);}
+.note-card.cat-confirm{border-left-color:var(--amber);}
+.note-card.cat-warning{border-left-color:var(--rust);}
+
+.note-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:8px;
+  flex-wrap:wrap;
+}
+
+.note-emoji{font-size:18px;flex-shrink:0;}
+
+.note-name{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:14px;
+  font-weight:700;
+  color:var(--cream);
+  letter-spacing:.5px;
+}
+
+.note-cat{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:2px 7px;
+  border:1px solid currentColor;
+  opacity:.7;
+}
+
+.cat-general .note-cat{color:var(--muted);}
+.cat-update .note-cat{color:var(--pine);}
+.cat-question .note-cat{color:var(--sky);}
+.cat-confirm .note-cat{color:var(--amber);}
+.cat-warning .note-cat{color:var(--rust);}
+
+.note-time{
+  font-size:10px;
+  color:var(--muted);
+  margin-left:auto;
+  white-space:nowrap;
+}
+
+.note-message{
+  font-size:13px;
+  color:#c8c0b0;
+  line-height:1.65;
+}
+
+.note-delete{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:none;
+  border:none;
+  color:var(--muted);
+  cursor:pointer;
+  font-size:14px;
+  padding:4px;
+  opacity:0;
+  transition:opacity .2s, color .2s;
+}
+
+.note-card:hover .note-delete{opacity:1;}
+.note-delete:hover{color:var(--rust);}
+
+/* Countdown */
+.countdown-bar{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1px;
+  background:var(--border);
+  margin:16px;
+}
+
+.cd-cell{
+  background:var(--surface);
+  padding:16px 10px;
+  text-align:center;
+}
+
+.cd-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:36px;
+  color:var(--amber);
+  line-height:1;
+}
+
+.cd-label{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+.cd-cell.departed .cd-num{color:var(--pine);}
+
+/* Status board */
+.status-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:1px;
+  background:var(--border);
+  margin:0 16px 16px;
+}
+
+.status-item{
+  background:var(--surface);
+  padding:12px 14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.status-dot{
+  width:8px;height:8px;
+  border-radius:50%;
+  flex-shrink:0;
+  background:var(--muted);
+}
+
+.status-dot.done{background:var(--pine);}
+.status-dot.pending{background:var(--amber);}
+.status-dot.urgent{background:var(--rust);animation:pulse 1.5s infinite;}
+
+@keyframes pulse{
+  0%,100%{opacity:1;}
+  50%{opacity:.4;}
+}
+
+.status-text{font-size:12px;color:#b8b0a0;line-height:1.4;}
+.status-text strong{color:var(--cream);font-size:12px;}
+
+/* ── SOS NAV BUTTON ────────────────────────────────── */
+.sos-btn{color:#cc3333 !important;}
+.sos-btn.active{color:#ff4444 !important;border-bottom-color:#ff4444 !important;}
+
+/* ── PWA INSTALL BANNER ────────────────────────────── */
+.pwa-banner{position:fixed;bottom:0;left:0;right:0;background:var(--surface2);border-top:2px solid var(--amber);padding:14px 20px;display:flex;align-items:center;gap:12px;z-index:500;transform:translateY(100%);transition:transform .3s ease;}
+.pwa-banner.show{transform:translateY(0);}
+.pwa-banner-text{flex:1;font-size:13px;color:var(--text);line-height:1.4;}
+.pwa-banner-text strong{color:var(--amber);}
+.pwa-banner-text small{color:var(--muted);font-size:11px;display:block;margin-top:2px;}
+.pwa-install-btn{padding:10px 18px;background:var(--amber);border:none;color:var(--bg);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.pwa-dismiss{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:4px;flex-shrink:0;}
+
+/* ── EMERGENCY / SOS ───────────────────────────────── */
+.sos-header{background:linear-gradient(135deg,#1a0808,#0e0d0b);padding:24px;border-bottom:2px solid #cc2222;position:relative;overflow:hidden;}
+.sos-header::before{content:'🆘';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:60px;opacity:.07;}
+.sos-tag{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#cc4444;margin-bottom:6px;}
+.sos-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,6vw,42px);color:var(--cream);letter-spacing:2px;line-height:1;}
+.sos-subtitle{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.6;}
+.offline-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(58,102,64,.2);border:1px solid var(--pine);padding:5px 10px;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--pine);margin-top:12px;}
+
+.ec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--border);margin:16px;}
+.ec-card{background:var(--surface);padding:18px;position:relative;border-top:3px solid #cc2222;animation:fadeUp .3s forwards;}
+.ec-card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;}
+.ec-name{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--cream);letter-spacing:1px;line-height:1;}
+.ec-role{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:3px;}
+.ec-blood{font-family:'Bebas Neue',sans-serif;font-size:28px;color:#ff4444;line-height:1;text-align:right;}
+.ec-blood-label{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:1px;color:var(--muted);text-align:right;}
+.ec-divider{height:1px;background:var(--border);margin:12px 0;}
+.ec-row{display:flex;gap:8px;margin-bottom:8px;align-items:flex-start;}
+.ec-icon{font-size:14px;flex-shrink:0;margin-top:1px;}
+.ec-label{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:1px;}
+.ec-value{font-size:13px;color:var(--text);line-height:1.4;font-weight:500;}
+.ec-value.hl{color:#ff8888;font-weight:600;}
+.ec-value a{color:var(--amber);text-decoration:none;}
+.ec-value a:hover{text-decoration:underline;}
+.ec-btn{position:absolute;top:12px;background:none;border:none;cursor:pointer;font-size:13px;padding:3px 6px;opacity:0;transition:opacity .2s;color:var(--muted);}
+.ec-card:hover .ec-btn{opacity:1;}
+.ec-edit{right:34px;border:1px solid var(--border);font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1px;}
+.ec-edit:hover{color:var(--amber);border-color:var(--amber);}
+.ec-del{right:8px;font-size:16px;}
+.ec-del:hover{color:#cc2222;}
+.ec-updated{font-size:10px;color:var(--muted);margin-top:10px;font-style:italic;}
+
+.ec-form-wrap{margin:16px;background:var(--surface);border:1px solid var(--border);overflow:hidden;}
+.ec-form-hdr{padding:14px 16px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.ec-form-hdr-title{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#cc4444;}
+.ec-toggle-btn{background:none;border:1px solid var(--border);color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;cursor:pointer;transition:all .2s;}
+.ec-toggle-btn:hover{border-color:var(--amber);color:var(--amber);}
+.ec-form-body{padding:16px;display:none;}
+.ec-form-body.open{display:block;}
+.ec-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+@media(max-width:480px){.ec-form-grid{grid-template-columns:1fr;}}
+.ec-field{display:flex;flex-direction:column;gap:5px;}
+.ec-field-lbl{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.ec-field-lbl.req::after{content:' *';color:#cc4444;}
+.ec-input,.ec-select{padding:9px 11px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;font-weight:300;outline:none;transition:border-color .2s;border-radius:0;-webkit-appearance:none;width:100%;}
+.ec-select{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:1px;cursor:pointer;}
+.ec-input:focus,.ec-select:focus{border-color:#cc4444;}
+.ec-input::placeholder{color:var(--muted);}
+.ec-save-btn{padding:12px 28px;background:#cc2222;border:none;color:white;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:background .2s;margin-top:4px;}
+.ec-save-btn:hover{background:#e02828;}
+.ec-save-btn:disabled{background:var(--muted);cursor:not-allowed;}
+.ec-empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px;line-height:1.8;border:1px dashed #cc222244;margin:16px;}
+
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-track{background:var(--bg);}
 ::-webkit-scrollbar-thumb{background:var(--border);}
+
 
 /* ── MOBILE TWEAKS ─────────────────────────────────── */
 @media(max-width:480px){
@@ -953,6 +1313,8 @@ body::before{
     <button class="nav-btn" onclick="showPanel('gear',this)"><span class="nav-icon">🎒</span>GEAR</button>
     <button class="nav-btn" onclick="showPanel('tips',this)"><span class="nav-icon">⚙️</span>TIPS</button>
     <button class="nav-btn" onclick="showPanel('summary',this)"><span class="nav-icon">📋</span>SUMMARY</button>
+    <button class="nav-btn" onclick="showPanel('board',this)"><span class="nav-icon">📌</span>BOARD</button>
+    <button class="nav-btn sos-btn" onclick="showPanel('sos',this)"><span class="nav-icon">🆘</span>SOS</button>
   </div>
 </nav>
 
@@ -1783,6 +2145,223 @@ body::before{
 
 </div>
 
+<!-- ═══ TRIP BOARD ══════════════════════════════════════════ -->
+<div id="board" class="panel">
+
+  <div class="phase-hdr p1">
+    <div class="phase-tag">Live · Shared with all riders</div>
+    <div class="phase-title">Trip Board</div>
+    <div class="phase-meta">
+      <div class="phase-meta-item">📌 <strong>Post updates, questions, confirmations</strong></div>
+      <div class="phase-meta-item">👥 <strong>Visible to everyone</strong></div>
+    </div>
+  </div>
+
+  <!-- COUNTDOWN -->
+  <div class="sec-title">⏳ Countdown to Departure</div>
+  <div class="countdown-bar">
+    <div class="cd-cell" id="cd-days"><div class="cd-num" id="cd-d">--</div><div class="cd-label">Days</div></div>
+    <div class="cd-cell" id="cd-hours-cell"><div class="cd-num" id="cd-h">--</div><div class="cd-label">Hours</div></div>
+    <div class="cd-cell"><div class="cd-num" id="cd-m">--</div><div class="cd-label">Minutes</div></div>
+    <div class="cd-cell"><div class="cd-num" id="cd-s">--</div><div class="cd-label">Seconds</div></div>
+  </div>
+
+  <!-- TRIP STATUS -->
+  <div class="sec-title">✅ Pre-Trip Checklist Status</div>
+  <div class="status-grid">
+    <div class="status-item"><div class="status-dot pending"></div><div class="status-text"><strong>Rohtang Permit</strong><br/>Book for May 30</div></div>
+    <div class="status-item"><div class="status-dot urgent"></div><div class="status-text"><strong>VRL Booking</strong><br/>Call before May 15</div></div>
+    <div class="status-item"><div class="status-dot urgent"></div><div class="status-text"><strong>Rental Bikes (Leh)</strong><br/>Book now — peak season</div></div>
+    <div class="status-item"><div class="status-dot pending"></div><div class="status-text"><strong>JKSRTC Tickets</strong><br/>Buy May 22 at TRC</div></div>
+    <div class="status-item"><div class="status-dot pending"></div><div class="status-text"><strong>Diamox Prescription</strong><br/>Before May 22</div></div>
+    <div class="status-item"><div class="status-dot pending"></div><div class="status-text"><strong>BSNL SIM</strong><br/>Get in Leh May 24</div></div>
+    <div class="status-item"><div class="status-dot pending"></div><div class="status-text"><strong>Spare Tubes × 2</strong><br/>KTM spoke wheel size</div></div>
+    <div class="status-item"><div class="status-dot pending"></div><div class="status-text"><strong>Viaterra 55L Bag</strong><br/>Main luggage</div></div>
+  </div>
+
+  <!-- COMPOSE -->
+  <div class="board-compose">
+    <div class="board-compose-header">📌 Post to Trip Board</div>
+    <div class="board-form">
+      <div class="board-row">
+        <input class="board-input" id="note-name" placeholder="Your name" maxlength="30"/>
+        <select class="board-select" id="note-cat">
+          <option value="general">💬 General</option>
+          <option value="update">✅ Update / Done</option>
+          <option value="confirm">🎯 Confirmation</option>
+          <option value="question">❓ Question</option>
+          <option value="warning">⚠️ Warning / Issue</option>
+        </select>
+      </div>
+      <textarea class="board-textarea" id="note-msg" placeholder="Post an update, ask a question, confirm something done..." maxlength="280"></textarea>
+      <div class="board-char-count" id="char-count">0 / 280</div>
+      <button class="board-submit" id="board-btn" onclick="postNote()">POST TO BOARD</button>
+    </div>
+  </div>
+
+  <!-- FEED -->
+  <div class="sec-title">📋 Board Feed</div>
+  <div class="board-feed" id="board-feed">
+    <div class="board-loading">Loading board...</div>
+  </div>
+
+</div>
+
+<!-- ═══ SOS / EMERGENCY CARD ══════════════════════════════ -->
+<div id="sos" class="panel">
+
+  <div class="sos-header">
+    <div class="sos-tag">🆘 Emergency Information — Works Offline</div>
+    <div class="sos-title">Rider Emergency Cards</div>
+    <p class="sos-subtitle">Blood groups, emergency contacts, and medical info for all riders.<br/>Saved to database — visible to everyone. Cached on your phone — <strong style="color:var(--cream)">works without internet.</strong></p>
+    <div class="offline-badge">✓ Offline Ready — Save this page to home screen</div>
+  </div>
+
+  <!-- QUICK DIAL SECTION -->
+  <div class="sec-title">📞 Quick Emergency Numbers</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1px;background:var(--border);margin:0 16px 16px;">
+    <a href="tel:112" style="text-decoration:none;">
+      <div style="background:var(--surface);padding:14px;text-align:center;border-top:2px solid #cc2222;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:#ff4444;">112</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;">Emergency (India)</div>
+      </div>
+    </a>
+    <a href="tel:102" style="text-decoration:none;">
+      <div style="background:var(--surface);padding:14px;text-align:center;border-top:2px solid var(--sky);">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--sky);">102</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;">Ambulance</div>
+      </div>
+    </a>
+    <a href="tel:01982252014" style="text-decoration:none;">
+      <div style="background:var(--surface);padding:14px;text-align:center;border-top:2px solid var(--pine);">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--pine);">01982</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;">Leh Hospital</div>
+      </div>
+    </a>
+    <a href="tel:01985232012" style="text-decoration:none;">
+      <div style="background:var(--surface);padding:14px;text-align:center;border-top:2px solid var(--amber);">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--amber);">01985</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;">Kargil Hospital</div>
+      </div>
+    </a>
+  </div>
+
+  <!-- ALTITUDE EMERGENCY GUIDE -->
+  <div class="sec-title">🏔️ Altitude Emergency — Quick Reference</div>
+  <div style="margin:0 16px 16px;">
+    <div style="background:var(--surface);border:1px solid var(--border);overflow:hidden;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);">
+        <div style="background:#1a0a0a;padding:14px;border-top:2px solid #cc2222;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#cc4444;margin-bottom:8px;">⚠ AMS Symptoms</div>
+          <div style="font-size:12px;color:#c8b0b0;line-height:1.7;">Severe headache<br/>Nausea / vomiting<br/>Dizziness / confusion<br/>Loss of coordination<br/>Breathlessness at rest</div>
+        </div>
+        <div style="background:#0a1a0a;padding:14px;border-top:2px solid var(--pine);">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--pine);margin-bottom:8px;">✓ Immediate Action</div>
+          <div style="font-size:12px;color:#b0c8b0;line-height:1.7;"><strong style="color:var(--cream)">Descend 500m immediately</strong><br/>Do not wait or sleep it off<br/>Give Diamox 250mg<br/>Oxygen if available<br/>Call 112 if severe</div>
+        </div>
+      </div>
+      <div style="padding:12px 14px;background:var(--surface2);font-size:11px;color:var(--muted);border-top:1px solid var(--border);">
+        Leh: 3,524m · Khardung La: 5,359m · Hanle: 4,500m · Umling La: 5,799m · Tsomoriri: 4,522m · Sarchu: 4,290m
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD CARD FORM -->
+  <div class="ec-form-wrap">
+    <div class="ec-form-hdr">
+      <div class="ec-form-hdr-title">+ Add / Update Your Emergency Card</div>
+      <button class="ec-toggle-btn" id="ec-toggle" onclick="toggleEcForm()">ADD CARD ▼</button>
+    </div>
+    <div class="ec-form-body" id="ec-form-body">
+      <div class="ec-form-grid">
+        <div class="ec-field">
+          <label class="ec-field-lbl req">Full Name</label>
+          <input class="ec-input" id="ec-name" placeholder="Your name" maxlength="40"/>
+        </div>
+        <div class="ec-field">
+          <label class="ec-field-lbl req">Blood Group</label>
+          <select class="ec-select" id="ec-blood">
+            <option value="">Select blood group</option>
+            <option>A+</option><option>A-</option>
+            <option>B+</option><option>B-</option>
+            <option>AB+</option><option>AB-</option>
+            <option>O+</option><option>O-</option>
+          </select>
+        </div>
+        <div class="ec-field">
+          <label class="ec-field-lbl">Your Phone</label>
+          <input class="ec-input" id="ec-phone" placeholder="+91 XXXXX XXXXX" maxlength="15" type="tel"/>
+        </div>
+        <div class="ec-field">
+          <label class="ec-field-lbl">Role</label>
+          <select class="ec-select" id="ec-role">
+            <option value="rider">🏍 Rider</option>
+            <option value="pillion">🏍 Pillion</option>
+            <option value="flying">✈ Flying to Leh</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#cc4444;margin:14px 0 10px;">Emergency Contact</div>
+
+      <div class="ec-form-grid">
+        <div class="ec-field">
+          <label class="ec-field-lbl req">Contact Name</label>
+          <input class="ec-input" id="ec-ename" placeholder="Parent / Partner name" maxlength="40"/>
+        </div>
+        <div class="ec-field">
+          <label class="ec-field-lbl req">Contact Phone</label>
+          <input class="ec-input" id="ec-ephone" placeholder="+91 XXXXX XXXXX" maxlength="15" type="tel"/>
+        </div>
+        <div class="ec-field">
+          <label class="ec-field-lbl">Relation</label>
+          <input class="ec-input" id="ec-erel" placeholder="Father / Mother / Spouse" maxlength="20"/>
+        </div>
+        <div class="ec-field">
+          <label class="ec-field-lbl">Bike</label>
+          <input class="ec-input" id="ec-bike" placeholder="KTM 390 ADV / RE Himalayan" maxlength="50"/>
+        </div>
+      </div>
+
+      <div style="margin-top:10px;">
+        <div class="ec-field">
+          <label class="ec-field-lbl">Medical Conditions / Allergies / Medications</label>
+          <input class="ec-input" id="ec-medical" placeholder="None / Diabetic / Allergic to penicillin..." maxlength="200"/>
+        </div>
+      </div>
+
+      <div style="margin-top:10px;">
+        <div class="ec-field">
+          <label class="ec-field-lbl">Insurance Policy Number</label>
+          <input class="ec-input" id="ec-insurance" placeholder="Policy no. / Company name" maxlength="100"/>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <button class="ec-save-btn" id="ec-save-btn" onclick="saveEmergencyCard()">SAVE EMERGENCY CARD</button>
+        <span style="font-size:11px;color:var(--muted);">Shared with all riders — visible offline</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARDS GRID -->
+  <div class="sec-title">🪪 All Rider Cards</div>
+  <div id="ec-cards-container">
+    <div class="ec-empty">Loading emergency cards...</div>
+  </div>
+
+</div>
+
+<!-- PWA INSTALL BANNER -->
+<div class="pwa-banner" id="pwa-banner">
+  <div class="pwa-banner-text">
+    <strong>📱 Add to Home Screen</strong>
+    <small>Works offline · No app store needed · Opens like an app</small>
+  </div>
+  <button class="pwa-install-btn" id="pwa-install-btn">INSTALL</button>
+  <button class="pwa-dismiss" onclick="dismissPWA()">✕</button>
+</div>
+
 <!-- ═══ FOOTER ════════════════════════════════════════════ -->
 <footer class="site-footer">
   <div class="footer-title">Ride Safe. Ride Proud.</div>
@@ -1843,13 +2422,412 @@ function loadState() {
 document.addEventListener('change', saveState);
 document.addEventListener('DOMContentLoaded', loadState);
 
-// ── NAV SCROLL ACTIVE ───────────────────────────────────
+// ── COUNTDOWN ───────────────────────────────────────────
+function updateCountdown() {
+  const departure = new Date('2026-05-15T04:30:00+05:30');
+  const now = new Date();
+  const diff = departure - now;
+
+  const daysEl = document.getElementById('cd-d');
+  const hoursEl = document.getElementById('cd-h');
+  const minsEl = document.getElementById('cd-m');
+  const secsEl = document.getElementById('cd-s');
+
+  if (!daysEl) return;
+
+  if (diff <= 0) {
+    daysEl.textContent = '🏍';
+    hoursEl.textContent = 'ON';
+    minsEl.textContent = 'THE';
+    secsEl.textContent = 'ROAD';
+    document.querySelectorAll('.cd-cell').forEach(c => c.classList.add('departed'));
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+  daysEl.textContent = String(days).padStart(2, '0');
+  hoursEl.textContent = String(hours).padStart(2, '0');
+  minsEl.textContent = String(mins).padStart(2, '0');
+  secsEl.textContent = String(secs).padStart(2, '0');
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// ── BOARD FUNCTIONS ──────────────────────────────────────
+
+// Category config
+const catConfig = {
+  general: { emoji: '💬', label: 'General' },
+  update:  { emoji: '✅', label: 'Update' },
+  confirm: { emoji: '🎯', label: 'Confirmed' },
+  question:{ emoji: '❓', label: 'Question' },
+  warning: { emoji: '⚠️', label: 'Warning' }
+};
+
+function formatTime(iso) {
+  const d = new Date(iso);
+  const now = new Date();
+  const diff = now - d;
+  const mins = Math.floor(diff / 60000);
+  const hrs = Math.floor(diff / 3600000);
+  const days = Math.floor(diff / 86400000);
+
+  if (mins < 1) return 'just now';
+  if (mins < 60) return `${mins}m ago`;
+  if (hrs < 24) return `${hrs}h ago`;
+  if (days === 1) return 'yesterday';
+  return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+}
+
+function renderNotes(notes) {
+  const feed = document.getElementById('board-feed');
+  if (!feed) return;
+
+  if (!notes || notes.length === 0) {
+    feed.innerHTML = `
+      <div class="board-empty">
+        No posts yet.<br/>
+        Be the first to post an update!
+      </div>`;
+    return;
+  }
+
+  feed.innerHTML = notes.map(note => {
+    const cat = note.category || 'general';
+    const cfg = catConfig[cat] || catConfig.general;
+    return `
+      <div class="note-card cat-${cat}" data-id="${note.id}">
+        <button class="note-delete" onclick="deleteNote('${note.id}')" title="Delete">✕</button>
+        <div class="note-header">
+          <span class="note-emoji">${cfg.emoji}</span>
+          <span class="note-name">${escapeHtml(note.name)}</span>
+          <span class="note-cat">${cfg.label}</span>
+          <span class="note-time">${formatTime(note.time)}</span>
+        </div>
+        <div class="note-message">${escapeHtml(note.message)}</div>
+      </div>`;
+  }).join('');
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+async function loadNotes() {
+  const feed = document.getElementById('board-feed');
+  if (!feed) return;
+
+  try {
+    const res = await fetch('/.netlify/functions/get-notes');
+    if (!res.ok) throw new Error('Failed to fetch');
+    const notes = await res.json();
+    renderNotes(notes);
+  } catch (err) {
+    feed.innerHTML = `
+      <div class="board-empty">
+        Could not load board.<br/>
+        <small style="color:var(--muted)">Make sure the site is deployed on Netlify.</small>
+      </div>`;
+  }
+}
+
+async function postNote() {
+  const nameEl = document.getElementById('note-name');
+  const msgEl = document.getElementById('note-msg');
+  const catEl = document.getElementById('note-cat');
+  const btn = document.getElementById('board-btn');
+
+  const name = nameEl.value.trim();
+  const message = msgEl.value.trim();
+  const category = catEl.value;
+
+  if (!name) { nameEl.focus(); nameEl.style.borderColor = 'var(--rust)'; return; }
+  if (!message) { msgEl.focus(); msgEl.style.borderColor = 'var(--rust)'; return; }
+
+  nameEl.style.borderColor = '';
+  msgEl.style.borderColor = '';
+
+  btn.disabled = true;
+  btn.textContent = 'POSTING...';
+
+  try {
+    const cfg = catConfig[category] || catConfig.general;
+    const res = await fetch('/.netlify/functions/save-note', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, message, category, emoji: cfg.emoji })
+    });
+
+    if (!res.ok) throw new Error('Failed to save');
+
+    // Clear form
+    msgEl.value = '';
+    document.getElementById('char-count').textContent = '0 / 280';
+
+    // Save name to localStorage for convenience
+    try { localStorage.setItem('leh_board_name', name); } catch(e) {}
+
+    // Reload notes
+    await loadNotes();
+
+    // Scroll to feed
+    document.getElementById('board-feed').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  } catch (err) {
+    alert('Could not post. Make sure you are connected and the site is deployed on Netlify.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'POST TO BOARD';
+  }
+}
+
+async function deleteNote(id) {
+  if (!confirm('Delete this post?')) return;
+
+  try {
+    const res = await fetch('/.netlify/functions/delete-note', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id })
+    });
+    if (!res.ok) throw new Error('Failed');
+    await loadNotes();
+  } catch(err) {
+    alert('Could not delete post.');
+  }
+}
+
+// Character counter
+document.addEventListener('DOMContentLoaded', () => {
+  // Load saved name
+  const savedName = (() => { try { return localStorage.getItem('leh_board_name') || ''; } catch(e) { return ''; } })();
+  const nameEl = document.getElementById('note-name');
+  if (nameEl && savedName) nameEl.value = savedName;
+
+  // Char counter
+  const msgEl = document.getElementById('note-msg');
+  const countEl = document.getElementById('char-count');
+  if (msgEl && countEl) {
+    msgEl.addEventListener('input', () => {
+      const len = msgEl.value.length;
+      countEl.textContent = `${len} / 280`;
+      countEl.classList.toggle('warn', len > 240);
+    });
+  }
+
+  // Load notes when board tab is first opened
+  loadState();
+});
+
+// Reload notes when board tab becomes visible
+const originalShowPanel = window.showPanel;
+window.showPanel = function(id, btn) {
+  originalShowPanel(id, btn);
+  if (id === 'board') {
+    loadNotes();
+  }
+};
+
 // Ensure nav scrolls to active button on mobile
 document.querySelectorAll('.nav-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
   });
 });
+
+// ── SERVICE WORKER REGISTRATION ─────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => console.log('SW registered'))
+      .catch(err => console.log('SW failed:', err));
+  });
+}
+
+// ── PWA INSTALL PROMPT ───────────────────────────────────
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const dismissed = (() => { try { return localStorage.getItem('pwa_dismissed'); } catch(x) { return null; }})();
+  if (!dismissed) {
+    setTimeout(() => {
+      const b = document.getElementById('pwa-banner');
+      if (b) b.classList.add('show');
+    }, 4000);
+  }
+});
+
+document.getElementById('pwa-install-btn').addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  document.getElementById('pwa-banner').classList.remove('show');
+  deferredPrompt = null;
+});
+
+function dismissPWA() {
+  document.getElementById('pwa-banner').classList.remove('show');
+  try { localStorage.setItem('pwa_dismissed','1'); } catch(x) {}
+}
+
+window.addEventListener('appinstalled', () => {
+  const b = document.getElementById('pwa-banner');
+  if (b) b.classList.remove('show');
+});
+
+// ── EMERGENCY CARD FUNCTIONS ─────────────────────────────
+
+function toggleEcForm() {
+  const body = document.getElementById('ec-form-body');
+  const btn = document.getElementById('ec-toggle');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open');
+  btn.textContent = isOpen ? 'ADD CARD ▼' : 'CLOSE ▲';
+}
+
+function getRoleLabel(role) {
+  const map = { rider:'🏍 Rider', pillion:'🏍 Pillion', flying:'✈ Flying to Leh' };
+  return map[role] || role || 'Rider';
+}
+
+function renderEmergencyCards(cards) {
+  const c = document.getElementById('ec-cards-container');
+  if (!c) return;
+  if (!cards || cards.length === 0) {
+    c.innerHTML = `<div class="ec-empty">No emergency cards yet.<br/><strong style="color:var(--cream)">Each rider should add their card.</strong><br/><small style="color:var(--muted)">Takes 30 seconds. Could save your life at Hanle or Tsomoriri.</small></div>`;
+    return;
+  }
+  c.innerHTML = `<div class="ec-grid">${cards.map(card => `
+    <div class="ec-card">
+      <button class="ec-btn ec-edit" onclick="editEmergencyCard('${card.id}')">EDIT</button>
+      <button class="ec-btn ec-del" onclick="deleteEmergencyCard('${card.id}')">✕</button>
+      <div class="ec-card-header">
+        <div><div class="ec-name">${escapeHtml(card.name)}</div><div class="ec-role">${getRoleLabel(card.role)}</div></div>
+        <div><div class="ec-blood">${escapeHtml(card.blood||'?')}</div><div class="ec-blood-label">Blood Group</div></div>
+      </div>
+      <div class="ec-divider"></div>
+      ${card.phone?`<div class="ec-row"><span class="ec-icon">📱</span><div><div class="ec-label">Phone</div><div class="ec-value"><a href="tel:${escapeHtml(card.phone)}">${escapeHtml(card.phone)}</a></div></div></div>`:''}
+      <div class="ec-row"><span class="ec-icon">🆘</span><div><div class="ec-label">Emergency Contact</div><div class="ec-value hl">${escapeHtml(card.emergency_name||'Not provided')}${card.emergency_relation?` (${escapeHtml(card.emergency_relation)})`:''}${card.emergency_phone?`<br/><a href="tel:${escapeHtml(card.emergency_phone)}">${escapeHtml(card.emergency_phone)}</a>`:''}</div></div></div>
+      <div class="ec-row"><span class="ec-icon">💊</span><div><div class="ec-label">Medical / Allergies</div><div class="ec-value">${escapeHtml(card.medical||'None')}</div></div></div>
+      ${card.bike?`<div class="ec-row"><span class="ec-icon">🏍</span><div><div class="ec-label">Bike</div><div class="ec-value">${escapeHtml(card.bike)}</div></div></div>`:''}
+      ${card.insurance?`<div class="ec-row"><span class="ec-icon">🛡</span><div><div class="ec-label">Insurance</div><div class="ec-value" style="font-size:12px;">${escapeHtml(card.insurance)}</div></div></div>`:''}
+      <div class="ec-updated">Updated ${formatTime(card.updated)}</div>
+    </div>`).join('')}</div>`;
+}
+
+async function loadEmergencyCards() {
+  const cached = (() => { try { return JSON.parse(localStorage.getItem('ec_cache')||'null'); } catch(x) { return null; }})();
+  if (cached) renderEmergencyCards(cached);
+  try {
+    const res = await fetch('/.netlify/functions/get-emergency');
+    if (!res.ok) throw new Error();
+    const cards = await res.json();
+    try { localStorage.setItem('ec_cache', JSON.stringify(cards)); } catch(x) {}
+    renderEmergencyCards(cards);
+  } catch(err) {
+    if (!cached) {
+      const c = document.getElementById('ec-cards-container');
+      if (c) c.innerHTML = `<div class="ec-empty">${navigator.onLine ? 'Could not load cards. Deploy on Netlify first.' : '📵 Offline — showing cached cards.'}</div>`;
+    }
+  }
+}
+
+async function saveEmergencyCard() {
+  const btn = document.getElementById('ec-save-btn');
+  const fields = {
+    name: document.getElementById('ec-name'),
+    blood: document.getElementById('ec-blood'),
+    ename: document.getElementById('ec-ename'),
+    ephone: document.getElementById('ec-ephone')
+  };
+
+  let valid = true;
+  Object.values(fields).forEach(el => {
+    if (!el.value.trim()) { el.style.borderColor='#cc2222'; el.focus(); valid=false; }
+    else el.style.borderColor='';
+  });
+  if (!valid) return;
+
+  btn.disabled = true; btn.textContent = 'SAVING...';
+  try {
+    const res = await fetch('/.netlify/functions/save-emergency', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        name: fields.name.value.trim(),
+        blood: fields.blood.value,
+        emergency_name: fields.ename.value.trim(),
+        emergency_phone: fields.ephone.value.trim(),
+        phone: document.getElementById('ec-phone').value.trim(),
+        emergency_relation: document.getElementById('ec-erel').value.trim(),
+        role: document.getElementById('ec-role').value,
+        bike: document.getElementById('ec-bike').value.trim(),
+        medical: document.getElementById('ec-medical').value.trim()||'None',
+        insurance: document.getElementById('ec-insurance').value.trim()
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Server returned ' + res.status);
+    document.getElementById('ec-form-body').classList.remove('open');
+    document.getElementById('ec-toggle').textContent = 'ADD CARD ▼';
+    await loadEmergencyCards();
+    document.getElementById('ec-cards-container').scrollIntoView({behavior:'smooth',block:'start'});
+  } catch(err) {
+    alert('Could not save emergency card.\nError: ' + (err.message || 'Unknown. Check Netlify function logs.'));
+  } finally {
+    btn.disabled=false; btn.textContent='SAVE EMERGENCY CARD';
+  }
+}
+
+function editEmergencyCard(id) {
+  const cached = (() => { try { return JSON.parse(localStorage.getItem('ec_cache')||'[]'); } catch(x){ return []; }})();
+  const card = cached.find(c => c.id === id);
+  if (!card) return;
+  document.getElementById('ec-name').value = card.name||'';
+  document.getElementById('ec-blood').value = card.blood||'';
+  document.getElementById('ec-phone').value = card.phone||'';
+  document.getElementById('ec-role').value = card.role||'rider';
+  document.getElementById('ec-ename').value = card.emergency_name||'';
+  document.getElementById('ec-ephone').value = card.emergency_phone||'';
+  document.getElementById('ec-erel').value = card.emergency_relation||'';
+  document.getElementById('ec-bike').value = card.bike||'';
+  document.getElementById('ec-medical').value = card.medical||'';
+  document.getElementById('ec-insurance').value = card.insurance||'';
+  document.getElementById('ec-form-body').classList.add('open');
+  document.getElementById('ec-toggle').textContent = 'CLOSE ▲';
+  document.querySelector('.ec-form-wrap').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+async function deleteEmergencyCard(id) {
+  if (!confirm('Remove this emergency card?')) return;
+  try {
+    await fetch('/.netlify/functions/delete-emergency', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({id})
+    });
+    await loadEmergencyCards();
+  } catch(err) { alert('Could not delete.'); }
+}
+
+// Update showPanel to load emergency cards when SOS tab opens
+const _origShowPanel = window.showPanel;
+window.showPanel = function(id, btn) {
+  _origShowPanel(id, btn);
+  if (id === 'sos') loadEmergencyCards();
+};
+
 </script>
 </body>
 </html>
