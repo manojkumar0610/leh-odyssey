@@ -1,0 +1,8 @@
+{
+  "name": "leh-odyssey",
+  "version": "1.0.0",
+  "description": "Bangalore to Leh Bike Trip Itinerary",
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.0"
+  }
+}
