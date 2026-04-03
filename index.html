@@ -2458,6 +2458,72 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
+// ── BACKEND CONFIG — JSONBin.io (GitHub Pages compatible) ──
+// JSONBin is a free REST JSON storage that works directly from the browser.
+// Setup: go to jsonbin.io, create a free account, create 2 bins:
+//   1. A bin with initial value: {"notes":[]}   → paste its BIN ID as NOTES_BIN_ID
+//   2. A bin with initial value: {"cards":[]}   → paste its BIN ID as CARDS_BIN_ID
+// Then create an API key and paste it as JSONBIN_API_KEY.
+// All three values are stored only in YOUR browser's localStorage under
+// 'leh_jb_key', 'leh_jb_notes_bin', 'leh_jb_cards_bin' — never sent anywhere except jsonbin.io.
+
+const JB_BASE = 'https://api.jsonbin.io/v3/b';
+
+function getJBConfig() {
+  try {
+    return {
+      key:      localStorage.getItem('leh_jb_key') || '',
+      notesBin: localStorage.getItem('leh_jb_notes_bin') || '',
+      cardsBin: localStorage.getItem('leh_jb_cards_bin') || ''
+    };
+  } catch(e) { return { key:'', notesBin:'', cardsBin:'' }; }
+}
+
+function jbHeaders(key) {
+  return {
+    'Content-Type': 'application/json',
+    'X-Master-Key': key,
+    'X-Bin-Versioning': 'false'
+  };
+}
+
+// Show setup prompt if not configured
+function showJBSetup(targetEl, context) {
+  if (!targetEl) return;
+  targetEl.innerHTML = `
+    <div class="board-empty" style="border-color:var(--amber);text-align:left;padding:20px;">
+      <strong style="color:var(--amber);">⚙️ One-time setup needed</strong><br/><br/>
+      This site moved from Netlify to GitHub Pages. The board needs a free
+      <strong style="color:var(--cream)">JSONBin.io</strong> account to store data.<br/><br/>
+      <strong style="color:var(--cream)">Steps (5 minutes, free):</strong><br/>
+      1. Go to <a href="https://jsonbin.io" target="_blank" style="color:var(--amber)">jsonbin.io</a> → Sign Up free<br/>
+      2. Create a bin with content: <code style="color:var(--sky)">{"notes":[]}</code> → copy its Bin ID<br/>
+      3. Create another bin: <code style="color:var(--sky)">{"cards":[]}</code> → copy its Bin ID<br/>
+      4. Go to API Keys → create one → copy it<br/>
+      5. Fill in below and click Save:<br/><br/>
+      <div style="display:flex;flex-direction:column;gap:8px;max-width:400px;">
+        <input id="jb-key-input" class="board-input" placeholder="Master API Key ($2a$10$...)" style="font-size:11px;"/>
+        <input id="jb-notes-input" class="board-input" placeholder="Notes Bin ID (e.g. 64abc123def456)" />
+        <input id="jb-cards-input" class="board-input" placeholder="Cards Bin ID (e.g. 64abc789ghi012)" />
+        <button class="board-submit" onclick="saveJBConfig()">SAVE CONFIG & RELOAD</button>
+      </div>
+      <div style="margin-top:12px;font-size:11px;color:var(--muted);">Config is saved locally in your browser. Share these 3 values with all riders so everyone can post.</div>
+    </div>`;
+}
+
+function saveJBConfig() {
+  const key   = document.getElementById('jb-key-input')?.value.trim();
+  const notes = document.getElementById('jb-notes-input')?.value.trim();
+  const cards = document.getElementById('jb-cards-input')?.value.trim();
+  if (!key || !notes || !cards) { alert('Please fill in all 3 fields.'); return; }
+  try {
+    localStorage.setItem('leh_jb_key', key);
+    localStorage.setItem('leh_jb_notes_bin', notes);
+    localStorage.setItem('leh_jb_cards_bin', cards);
+  } catch(e) {}
+  location.reload();
+}
+
 // ── BOARD FUNCTIONS ──────────────────────────────────────
 
 // Category config
@@ -2497,7 +2563,9 @@ function renderNotes(notes) {
     return;
   }
 
-  feed.innerHTML = notes.map(note => {
+  // Show newest first
+  const sorted = [...notes].sort((a,b) => new Date(b.time) - new Date(a.time));
+  feed.innerHTML = sorted.map(note => {
     const cat = note.category || 'general';
     const cfg = catConfig[cat] || catConfig.general;
     return `
@@ -2527,17 +2595,28 @@ async function loadNotes() {
   const feed = document.getElementById('board-feed');
   if (!feed) return;
 
+  const cfg = getJBConfig();
+  if (!cfg.key || !cfg.notesBin) { showJBSetup(feed, 'board'); return; }
+
   try {
-    const res = await fetch('/.netlify/functions/get-notes');
-    if (!res.ok) throw new Error('Failed to fetch');
-    const notes = await res.json();
+    const res = await fetch(`${JB_BASE}/${cfg.notesBin}/latest`, {
+      headers: { 'X-Master-Key': cfg.key }
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const notes = data.record?.notes || [];
+    // Cache locally for offline
+    try { localStorage.setItem('leh_notes_cache', JSON.stringify(notes)); } catch(e) {}
     renderNotes(notes);
   } catch (err) {
-    feed.innerHTML = `
-      <div class="board-empty">
-        Could not load board.<br/>
-        <small style="color:var(--muted)">Make sure the site is deployed on Netlify.</small>
-      </div>`;
+    // Try offline cache
+    const cached = (() => { try { return JSON.parse(localStorage.getItem('leh_notes_cache')||'null'); } catch(e){ return null; }})();
+    if (cached) {
+      renderNotes(cached);
+      feed.insertAdjacentHTML('afterbegin', `<div class="board-empty" style="margin-bottom:8px;font-size:11px;">📵 Offline — showing cached posts</div>`);
+    } else {
+      feed.innerHTML = `<div class="board-empty">Could not load board.<br/><small style="color:var(--muted)">Check your JSONBin config or internet connection.</small></div>`;
+    }
   }
 }
 
@@ -2557,34 +2636,48 @@ async function postNote() {
   nameEl.style.borderColor = '';
   msgEl.style.borderColor = '';
 
+  const cfg = getJBConfig();
+  if (!cfg.key || !cfg.notesBin) { alert('JSONBin not configured. See the Board tab for setup instructions.'); return; }
+
   btn.disabled = true;
   btn.textContent = 'POSTING...';
 
   try {
-    const cfg = catConfig[category] || catConfig.general;
-    const res = await fetch('/.netlify/functions/save-note', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, message, category, emoji: cfg.emoji })
+    // Read current notes
+    const getRes = await fetch(`${JB_BASE}/${cfg.notesBin}/latest`, { headers: { 'X-Master-Key': cfg.key } });
+    if (!getRes.ok) throw new Error(`Read failed: HTTP ${getRes.status}`);
+    const data = await getRes.json();
+    const notes = data.record?.notes || [];
+
+    // Add new note
+    const newNote = {
+      id: 'note_' + Date.now() + '_' + Math.random().toString(36).substr(2,6),
+      name: name.substring(0,30),
+      message: message.substring(0,280),
+      category,
+      emoji: (catConfig[category]||catConfig.general).emoji,
+      time: new Date().toISOString()
+    };
+    // Keep max 50 notes (newest at end)
+    const updated = [...notes, newNote].slice(-50);
+
+    // Write back
+    const putRes = await fetch(`${JB_BASE}/${cfg.notesBin}`, {
+      method: 'PUT',
+      headers: jbHeaders(cfg.key),
+      body: JSON.stringify({ notes: updated })
     });
+    if (!putRes.ok) throw new Error(`Write failed: HTTP ${putRes.status}`);
 
-    if (!res.ok) throw new Error('Failed to save');
-
-    // Clear form
     msgEl.value = '';
     document.getElementById('char-count').textContent = '0 / 280';
-
-    // Save name to localStorage for convenience
     try { localStorage.setItem('leh_board_name', name); } catch(e) {}
 
-    // Reload notes
     await loadNotes();
-
-    // Scroll to feed
     document.getElementById('board-feed').scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   } catch (err) {
-    alert('Could not post. Make sure you are connected and the site is deployed on Netlify.');
+    alert('Could not post.\nError: ' + err.message);
   } finally {
     btn.disabled = false;
     btn.textContent = 'POST TO BOARD';
@@ -2594,13 +2687,18 @@ async function postNote() {
 async function deleteNote(id) {
   if (!confirm('Delete this post?')) return;
 
+  const cfg = getJBConfig();
+  if (!cfg.key || !cfg.notesBin) return;
+
   try {
-    const res = await fetch('/.netlify/functions/delete-note', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id })
+    const getRes = await fetch(`${JB_BASE}/${cfg.notesBin}/latest`, { headers: { 'X-Master-Key': cfg.key } });
+    const data = await getRes.json();
+    const notes = (data.record?.notes || []).filter(n => n.id !== id);
+    await fetch(`${JB_BASE}/${cfg.notesBin}`, {
+      method: 'PUT',
+      headers: jbHeaders(cfg.key),
+      body: JSON.stringify({ notes })
     });
-    if (!res.ok) throw new Error('Failed');
     await loadNotes();
   } catch(err) {
     alert('Could not delete post.');
@@ -2728,18 +2826,29 @@ function renderEmergencyCards(cards) {
 }
 
 async function loadEmergencyCards() {
+  const c = document.getElementById('ec-cards-container');
   const cached = (() => { try { return JSON.parse(localStorage.getItem('ec_cache')||'null'); } catch(x) { return null; }})();
+
+  const cfg = getJBConfig();
+  if (!cfg.key || !cfg.cardsBin) {
+    showJBSetup(c, 'sos');
+    return;
+  }
+
   if (cached) renderEmergencyCards(cached);
+
   try {
-    const res = await fetch('/.netlify/functions/get-emergency');
-    if (!res.ok) throw new Error();
-    const cards = await res.json();
+    const res = await fetch(`${JB_BASE}/${cfg.cardsBin}/latest`, {
+      headers: { 'X-Master-Key': cfg.key }
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const cards = data.record?.cards || [];
     try { localStorage.setItem('ec_cache', JSON.stringify(cards)); } catch(x) {}
     renderEmergencyCards(cards);
   } catch(err) {
-    if (!cached) {
-      const c = document.getElementById('ec-cards-container');
-      if (c) c.innerHTML = `<div class="ec-empty">${navigator.onLine ? 'Could not load cards. Deploy on Netlify first.' : '📵 Offline — showing cached cards.'}</div>`;
+    if (!cached && c) {
+      c.innerHTML = `<div class="ec-empty">${navigator.onLine ? 'Could not load cards. Check JSONBin config.' : '📵 Offline — no cached cards available.'}</div>`;
     }
   }
 }
@@ -2760,32 +2869,49 @@ async function saveEmergencyCard() {
   });
   if (!valid) return;
 
+  const cfg = getJBConfig();
+  if (!cfg.key || !cfg.cardsBin) { alert('JSONBin not configured. See the Board tab for setup instructions.'); return; }
+
   btn.disabled = true; btn.textContent = 'SAVING...';
   try {
-    const res = await fetch('/.netlify/functions/save-emergency', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        name: fields.name.value.trim(),
-        blood: fields.blood.value,
-        emergency_name: fields.ename.value.trim(),
-        emergency_phone: fields.ephone.value.trim(),
-        phone: document.getElementById('ec-phone').value.trim(),
-        emergency_relation: document.getElementById('ec-erel').value.trim(),
-        role: document.getElementById('ec-role').value,
-        bike: document.getElementById('ec-bike').value.trim(),
-        medical: document.getElementById('ec-medical').value.trim()||'None',
-        insurance: document.getElementById('ec-insurance').value.trim()
-      })
+    // Read current cards
+    const getRes = await fetch(`${JB_BASE}/${cfg.cardsBin}/latest`, { headers: { 'X-Master-Key': cfg.key } });
+    if (!getRes.ok) throw new Error(`Read failed: HTTP ${getRes.status}`);
+    const data = await getRes.json();
+    const cards = data.record?.cards || [];
+
+    const newCard = {
+      id: 'ec_' + Date.now() + '_' + Math.random().toString(36).substr(2,6),
+      name: fields.name.value.trim().substring(0,40),
+      blood: fields.blood.value,
+      phone: document.getElementById('ec-phone').value.trim().substring(0,15),
+      role: document.getElementById('ec-role').value,
+      emergency_name: fields.ename.value.trim().substring(0,40),
+      emergency_phone: fields.ephone.value.trim().substring(0,15),
+      emergency_relation: document.getElementById('ec-erel').value.trim().substring(0,20),
+      bike: document.getElementById('ec-bike').value.trim().substring(0,50),
+      medical: (document.getElementById('ec-medical').value.trim()||'None').substring(0,200),
+      insurance: document.getElementById('ec-insurance').value.trim().substring(0,100),
+      updated: new Date().toISOString()
+    };
+
+    // Upsert by name (replace existing card with same name)
+    const filtered = cards.filter(c => c.name.toLowerCase() !== newCard.name.toLowerCase());
+    const updated = [...filtered, newCard];
+
+    const putRes = await fetch(`${JB_BASE}/${cfg.cardsBin}`, {
+      method: 'PUT',
+      headers: jbHeaders(cfg.key),
+      body: JSON.stringify({ cards: updated })
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Server returned ' + res.status);
+    if (!putRes.ok) throw new Error(`Write failed: HTTP ${putRes.status}`);
+
     document.getElementById('ec-form-body').classList.remove('open');
     document.getElementById('ec-toggle').textContent = 'ADD CARD ▼';
     await loadEmergencyCards();
     document.getElementById('ec-cards-container').scrollIntoView({behavior:'smooth',block:'start'});
   } catch(err) {
-    alert('Could not save emergency card.\nError: ' + (err.message || 'Unknown. Check Netlify function logs.'));
+    alert('Could not save emergency card.\nError: ' + (err.message || 'Unknown'));
   } finally {
     btn.disabled=false; btn.textContent='SAVE EMERGENCY CARD';
   }
@@ -2812,10 +2938,16 @@ function editEmergencyCard(id) {
 
 async function deleteEmergencyCard(id) {
   if (!confirm('Remove this emergency card?')) return;
+  const cfg = getJBConfig();
+  if (!cfg.key || !cfg.cardsBin) return;
   try {
-    await fetch('/.netlify/functions/delete-emergency', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({id})
+    const getRes = await fetch(`${JB_BASE}/${cfg.cardsBin}/latest`, { headers: { 'X-Master-Key': cfg.key } });
+    const data = await getRes.json();
+    const cards = (data.record?.cards || []).filter(c => c.id !== id);
+    await fetch(`${JB_BASE}/${cfg.cardsBin}`, {
+      method: 'PUT',
+      headers: jbHeaders(cfg.key),
+      body: JSON.stringify({ cards })
     });
     await loadEmergencyCards();
   } catch(err) { alert('Could not delete.'); }
